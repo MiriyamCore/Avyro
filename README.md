@@ -9,10 +9,10 @@ Invoice customers, record expenses, reconcile the bank, run payroll, and stay Mu
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
-[![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-12-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 
 ---
 
@@ -40,7 +40,11 @@ Avyro is in **public beta**. The core ledger, sales/purchases workflows, banking
 - Object storage is local filesystem; S3/R2 adapter is planned
 - Receipt OCR and per-bank PDF parsers are not yet built
 
+See [`RELEASE.md`](./RELEASE.md) for v0.1.0-beta.1 notes.
+
 We welcome feedback, issues, and contributions. See [CONTRIBUTING.md](./CONTRIBUTING.md) and [SECURITY.md](./SECURITY.md).
+
+**GitHub repo topics (suggested):** `accounting`, `open-source`, `invoicing`, `nestjs`, `nextjs`, `bangladesh`, `payroll`, `small-business`
 
 | Area | Status |
 |------|--------|
@@ -148,10 +152,10 @@ See [`docs/COMPLIANCE_BD.md`](./docs/COMPLIANCE_BD.md) for implementation notes.
 | Layer | Technology |
 |-------|------------|
 | Monorepo | pnpm workspaces |
-| Web | Next.js 15, React 19, TypeScript, Tailwind CSS 4 |
-| API | NestJS 11, TypeScript |
+| Web | Next.js 16, React 19, TypeScript, Tailwind CSS 4 |
+| API | NestJS 12, TypeScript |
 | Worker | BullMQ + Redis (email jobs) |
-| Database | PostgreSQL 16, Prisma 6 |
+| Database | PostgreSQL 16, Prisma 7 |
 | Auth | Better Auth |
 | PDF | PDFKit (invoices, payslips, Mushak registers), pdf-parse (bank statements) |
 | Money | `decimal.js` |
