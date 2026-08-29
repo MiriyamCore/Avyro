@@ -1,0 +1,27 @@
+{
+  "name": "avyro",
+  "description": "Avyro is an open-source business OS for managing your finances, people, compliance, and operations in one place.",
+  "author": {
+    "name": "Miriyam Core",
+    "email": "hello@miriyamcore.com",
+    "url": "https://miriyamcore.com"
+  },
+  "license": "MIT",
+  "private": false,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "pnpm --parallel --filter @avyro/api --filter @avyro/web dev",
+    "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
+    "test": "pnpm -r --filter=./packages/* test && pnpm -r --filter=./apps/* test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @avyro/database generate",
+    "db:migrate": "pnpm --filter @avyro/database migrate:dev",
+    "db:migrate:deploy": "pnpm --filter @avyro/database migrate:deploy",
+    "db:seed": "pnpm --filter @avyro/database seed",
+    "db:studio": "pnpm --filter @avyro/database studio"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

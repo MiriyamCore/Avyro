@@ -1,0 +1,54 @@
+{
+  "name": "@avyro/api",
+  "version": "0.0.0",
+  "description": "Avyro is an open-source business OS for managing your finances, people, compliance, and operations in one place.",
+  "author": {
+    "name": "Miriyam Core",
+    "email": "hello@miriyamcore.com",
+    "url": "https://miriyamcore.com"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo \"no lint yet\"",
+    "test": "vitest run",
+    "smoke": "tsx scripts/smoke-health.ts"
+  },
+  "dependencies": {
+    "@avyro/accounting": "workspace:*",
+    "@avyro/database": "workspace:*",
+    "@avyro/types": "workspace:*",
+    "@avyro/validation": "workspace:*",
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/core": "^12.0.1",
+    "@nestjs/platform-express": "^12.0.1",
+    "better-auth": "^1.7.2",
+    "bullmq": "^6.3.2",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^17.4.2",
+    "ioredis": "^6.0.0",
+    "multer": "^2.3.0",
+    "nodemailer": "^9.0.6",
+    "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.20.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.5.2"
+  },
+  "devDependencies": {
+    "@avyro/testing": "workspace:*",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^26.4.0",
+    "@types/nodemailer": "^8.0.1",
+    "@types/pdfkit": "^0.17.6",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.11"
+  }
+}

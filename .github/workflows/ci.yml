@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: accounting
+          POSTGRES_PASSWORD: accounting
+          POSTGRES_DB: avyro
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U accounting -d avyro"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://accounting:accounting@127.0.0.1:5432/avyro?schema=public
+      BETTER_AUTH_SECRET: ci-test-secret-not-for-production-use
+      BETTER_AUTH_URL: http://localhost:3001
+      API_URL: http://localhost:3001
+      WEB_URL: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:generate
+      - run: pnpm --filter @avyro/database exec prisma migrate deploy
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build

@@ -1,0 +1,51 @@
+{
+  "name": "@avyro/database",
+  "version": "0.0.0",
+  "author": {
+    "name": "Miriyam Core",
+    "email": "hello@miriyamcore.com",
+    "url": "https://miriyamcore.com"
+  },
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "prisma": {
+    "seed": "node --env-file=../../.env ./node_modules/tsx/dist/cli.mjs prisma/seed.ts"
+  },
+  "scripts": {
+    "generate": "prisma generate",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "studio": "prisma studio",
+    "seed": "node --env-file=../../.env ./node_modules/tsx/dist/cli.mjs prisma/seed.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo \"no lint yet\"",
+    "test": "echo \"no tests in database package\""
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "pg": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/pg": "^8.15.5",
+    "better-auth": "^1.7.2",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.10.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.11"
+  }
+}

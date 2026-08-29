@@ -1,0 +1,37 @@
+{
+  "name": "@avyro/accounting",
+  "version": "0.0.0",
+  "author": {
+    "name": "Miriyam Core",
+    "email": "hello@miriyamcore.com",
+    "url": "https://miriyamcore.com"
+  },
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo \"no lint yet\"",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@avyro/database": "workspace:*",
+    "decimal.js": "^10.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.11"
+  }
+}

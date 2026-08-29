@@ -1,0 +1,32 @@
+{
+  "name": "@avyro/worker",
+  "version": "0.0.0",
+  "description": "Avyro is an open-source business OS for managing your finances, people, compliance, and operations in one place.",
+  "author": {
+    "name": "Miriyam Core",
+    "email": "hello@miriyamcore.com",
+    "url": "https://miriyamcore.com"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo \"no lint yet\"",
+    "test": "echo \"no worker tests yet\""
+  },
+  "dependencies": {
+    "bullmq": "^6.3.2",
+    "dotenv": "^17.4.2",
+    "ioredis": "^6.0.0",
+    "nodemailer": "^9.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/nodemailer": "^8.0.1",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  }
+}
