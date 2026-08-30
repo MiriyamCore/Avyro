@@ -259,7 +259,7 @@ export default function BusinessSetupPage() {
                 ? 'border-brand bg-brand text-white'
                 : step > s.id
                   ? 'border-brand/30 bg-brand-soft text-ink'
-                  : 'border-line bg-white text-muted'
+                  : 'border-line bg-paper-elevated text-muted'
             }`}
             onClick={() => {
               setDone(false);

@@ -1,7 +1,20 @@
+'use client';
+
+import { useEffect } from 'react';
 import { AvyroHomeLink, PoweredByAvyro } from '@/components/avyro-brand';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { api } from '@/lib/api';
 
 export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    api('/api/v1/me')
+      .then(() => router.replace('/app'))
+      .catch(() => undefined);
+  }, [router]);
+
   return (
     <main className="relative min-h-screen overflow-hidden">
       <div
@@ -9,7 +22,7 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 70% 55% at 15% 10%, rgba(0,180,255,0.12), transparent 60%), radial-gradient(ellipse 50% 40% at 90% 20%, rgba(142,36,255,0.08), transparent 55%)',
+            'radial-gradient(ellipse 70% 55% at 15% 10%, rgba(0,183,255,0.14), transparent 60%), radial-gradient(ellipse 50% 40% at 90% 20%, rgba(189,32,255,0.1), transparent 55%)',
         }}
       />
       <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-6 py-14 lg:grid-cols-[1.05fr_0.95fr]">
@@ -27,16 +40,13 @@ export default function HomePage() {
             <Link href="/login" className="ac-btn-primary px-5 py-3 text-base">
               Sign in
             </Link>
-            <Link href="/app" className="ac-btn-secondary px-5 py-3 text-base">
-              Open workspace
-            </Link>
           </div>
           <p className="mt-6 text-sm text-muted">
             Open source · Multi-currency · Bangladesh Mushak-ready
           </p>
         </div>
 
-        <div className="ac-card overflow-hidden shadow-[0_24px_60px_rgba(0,71,255,0.12)]">
+        <div className="ac-card overflow-hidden shadow-[0_24px_60px_rgba(0,71,255,0.12)] dark:shadow-[0_24px_60px_rgba(125,137,255,0.18)]">
           <div className="avyro-gradient-bg border-b border-line px-5 py-4 text-white">
             <div className="text-xs font-semibold uppercase tracking-[0.12em] text-white/70">
               Demo Trading Co

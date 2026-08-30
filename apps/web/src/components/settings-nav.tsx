@@ -27,7 +27,7 @@ export const SETTINGS_SECTIONS: {
   { id: 'team', label: 'Team', hint: 'Members and roles' },
   { id: 'backups', label: 'Backups', hint: 'Schedule and restore' },
   { id: 'security', label: 'Security', hint: 'Password' },
-  { id: 'display', label: 'Display', hint: 'Simple / Accountant' },
+  { id: 'display', label: 'Display', hint: 'Theme & navigation mode' },
   { id: 'more', label: 'More tools', hint: 'Compliance, books, extras' },
 ];
 

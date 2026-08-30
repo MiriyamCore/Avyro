@@ -7,6 +7,8 @@ export type RoleName =
 
 export type UiMode = 'SIMPLE' | 'ACCOUNTANT';
 
+export type ColorScheme = 'LIGHT' | 'DARK' | 'SYSTEM';
+
 export type OrganizationStatus = 'ACTIVE' | 'SUSPENDED' | 'ARCHIVED';
 
 export type JournalStatus = 'DRAFT' | 'POSTED' | 'REVERSED';

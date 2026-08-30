@@ -49,6 +49,13 @@ export type StringNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
 }
 
+export type EnumColorSchemeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ColorScheme | Prisma.EnumColorSchemeFieldRefInput<$PrismaModel>
+  in?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumColorSchemeFilter<$PrismaModel> | $Enums.ColorScheme
+}
+
 export type DateTimeFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel>
@@ -107,6 +114,16 @@ export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedStringNullableFilter<$PrismaModel>
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
+}
+
+export type EnumColorSchemeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ColorScheme | Prisma.EnumColorSchemeFieldRefInput<$PrismaModel>
+  in?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumColorSchemeWithAggregatesFilter<$PrismaModel> | $Enums.ColorScheme
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumColorSchemeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumColorSchemeFilter<$PrismaModel>
 }
 
 export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -945,6 +962,13 @@ export type NestedStringNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
 }
 
+export type NestedEnumColorSchemeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ColorScheme | Prisma.EnumColorSchemeFieldRefInput<$PrismaModel>
+  in?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumColorSchemeFilter<$PrismaModel> | $Enums.ColorScheme
+}
+
 export type NestedDateTimeFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel>
@@ -1018,6 +1042,16 @@ export type NestedIntNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumColorSchemeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ColorScheme | Prisma.EnumColorSchemeFieldRefInput<$PrismaModel>
+  in?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ColorScheme[] | Prisma.ListEnumColorSchemeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumColorSchemeWithAggregatesFilter<$PrismaModel> | $Enums.ColorScheme
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumColorSchemeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumColorSchemeFilter<$PrismaModel>
 }
 
 export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

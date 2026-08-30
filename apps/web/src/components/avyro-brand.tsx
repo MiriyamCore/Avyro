@@ -43,7 +43,7 @@ export function AvyroSidebarBrand() {
   return (
     <Link href="/app" className="flex items-center gap-2.5">
       <AvyroIcon className="h-9 w-9" />
-      <span className="text-base font-semibold tracking-tight text-[#050a30]">Avyro</span>
+      <span className="text-base font-semibold tracking-tight text-ink">Avyro</span>
     </Link>
   );
 }

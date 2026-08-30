@@ -37,6 +37,15 @@ export const UiMode = {
 export type UiMode = (typeof UiMode)[keyof typeof UiMode]
 
 
+export const ColorScheme = {
+  LIGHT: 'LIGHT',
+  DARK: 'DARK',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type ColorScheme = (typeof ColorScheme)[keyof typeof ColorScheme]
+
+
 export const MembershipStatus = {
   ACTIVE: 'ACTIVE',
   INVITED: 'INVITED',

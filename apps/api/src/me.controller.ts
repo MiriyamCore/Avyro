@@ -27,13 +27,14 @@ export class MeController {
   ) {}
 
   @Get()
-  me(
+  async me(
     @CurrentUser() user: RequestUser,
     @CurrentMemberships() memberships: OrgMembership[],
     @CurrentOrg() organization: OrgMembership | null,
   ) {
+    const colorScheme = await this.organizations.getUserColorScheme(user.id);
     return {
-      user,
+      user: { ...user, colorScheme },
       memberships,
       currentOrganization: organization,
     };
@@ -71,5 +72,17 @@ export class MeController {
       body.uiMode,
     );
     return { uiMode: membership.uiMode };
+  }
+
+  @Patch('color-scheme')
+  async updateColorScheme(
+    @CurrentUser() user: RequestUser,
+    @Body() body: { colorScheme: 'LIGHT' | 'DARK' | 'SYSTEM' },
+  ) {
+    const updated = await this.organizations.updateOwnColorScheme(
+      user.id,
+      body.colorScheme,
+    );
+    return { colorScheme: updated.colorScheme };
   }
 }

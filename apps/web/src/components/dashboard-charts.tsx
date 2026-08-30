@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
@@ -11,6 +12,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { COLOR_SCHEME_EVENT, resolveColorScheme, type ColorSchemePreference } from '@/lib/theme';
 
 type MonthlyPoint = {
   month: string;
@@ -45,7 +47,7 @@ function agingData(buckets: Record<string, string>) {
   ];
 }
 
-const CHART_COLORS = {
+const LIGHT_CHART_COLORS = {
   revenue: '#0047ff',
   expenses: '#a3a3a3',
   profit: '#8e24ff',
@@ -53,16 +55,66 @@ const CHART_COLORS = {
   payable: '#737373',
   grid: '#f5f5f5',
   axis: '#a3a3a3',
+  tooltipBg: '#ffffff',
+  tooltipBorder: '#e5e5e5',
 };
 
-const tooltipStyle = {
-  borderRadius: 6,
-  border: '1px solid #e5e5e5',
-  fontSize: 12,
-  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-  padding: '8px 12px',
-  background: '#ffffff',
+const DARK_CHART_COLORS = {
+  revenue: '#7d89ff',
+  expenses: '#858a99',
+  profit: '#bd20ff',
+  receivable: '#00b7ff',
+  payable: '#667085',
+  grid: 'rgba(255, 255, 255, 0.06)',
+  axis: '#a1a1aa',
+  tooltipBg: '#111113',
+  tooltipBorder: 'rgba(255, 255, 255, 0.09)',
 };
+
+function useChartTheme() {
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    function sync() {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    }
+
+    sync();
+
+    function onColorScheme(event: Event) {
+      const detail = (event as CustomEvent<ColorSchemePreference>).detail;
+      if (detail) {
+        setIsDark(resolveColorScheme(detail) === 'dark');
+        return;
+      }
+      sync();
+    }
+
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const onMedia = () => sync();
+
+    window.addEventListener(COLOR_SCHEME_EVENT, onColorScheme);
+    media.addEventListener('change', onMedia);
+    return () => {
+      window.removeEventListener(COLOR_SCHEME_EVENT, onColorScheme);
+      media.removeEventListener('change', onMedia);
+    };
+  }, []);
+
+  return useMemo(() => {
+    const colors = isDark ? DARK_CHART_COLORS : LIGHT_CHART_COLORS;
+    const tooltipStyle = {
+      borderRadius: 6,
+      border: `1px solid ${colors.tooltipBorder}`,
+      fontSize: 12,
+      boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.45)' : '0 1px 3px rgba(0,0,0,0.06)',
+      padding: '8px 12px',
+      background: colors.tooltipBg,
+      color: isDark ? '#f5f5f3' : '#0a0a0a',
+    };
+    return { colors, tooltipStyle };
+  }, [isDark]);
+}
 
 function ChartCard({
   title,
@@ -90,6 +142,8 @@ function ChartCard({
 }
 
 export function DashboardCharts({ monthlyTrend, arBuckets, apBuckets }: DashboardChartsProps) {
+  const { colors: CHART_COLORS, tooltipStyle } = useChartTheme();
+
   const trendData = monthlyTrend.map((m) => ({
     label: m.label,
     revenue: toNum(m.revenue),

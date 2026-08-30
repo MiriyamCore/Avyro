@@ -511,6 +511,25 @@ export class OrganizationsService {
     });
   }
 
+  async getUserColorScheme(userId: string) {
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: { colorScheme: true },
+    });
+    return user.colorScheme;
+  }
+
+  async updateOwnColorScheme(
+    userId: string,
+    colorScheme: 'LIGHT' | 'DARK' | 'SYSTEM',
+  ) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: { colorScheme },
+      select: { colorScheme: true },
+    });
+  }
+
   async changeOwnPassword(
     userId: string,
     currentPassword: string,

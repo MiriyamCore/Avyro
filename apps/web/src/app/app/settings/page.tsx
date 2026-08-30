@@ -7,6 +7,12 @@ import { api, ApiError, ORG_LOGO_PATH, restoreBackupUpload, uploadLogo, uploadRe
 import { SignOutButton } from '@/components/sign-out-button';
 import { PageHeader, StatusBadge } from '@/components/ui';
 import {
+  applyColorScheme,
+  COLOR_SCHEME_EVENT,
+  type ColorSchemePreference,
+  DEFAULT_COLOR_SCHEME,
+} from '@/lib/theme';
+import {
   parseSettingsTab,
   SETTINGS_SECTIONS,
   type SettingsTab,
@@ -50,7 +56,7 @@ type Member = {
 };
 
 type Me = {
-  user: { id: string; name: string; email: string };
+  user: { id: string; name: string; email: string; colorScheme?: ColorSchemePreference };
   currentOrganization: {
     organizationId: string;
     role: string;
@@ -170,6 +176,7 @@ function SettingsPageInner() {
   });
 
   const [uiMode, setUiMode] = useState<'SIMPLE' | 'ACCOUNTANT'>('SIMPLE');
+  const [colorScheme, setColorScheme] = useState<ColorSchemePreference>(DEFAULT_COLOR_SCHEME);
   const isOwner = me?.currentOrganization?.role === 'OWNER';
   const hasLogo = Boolean(org?.logoUrl);
 
@@ -209,6 +216,7 @@ function SettingsPageInner() {
       setOrg(orgRes);
       setMembers(memberRes);
       setUiMode(meRes.currentOrganization?.uiMode ?? 'SIMPLE');
+      setColorScheme(meRes.user.colorScheme ?? DEFAULT_COLOR_SCHEME);
       setBusiness({
         name: orgRes.name ?? '',
         legalName: orgRes.legalName ?? '',
@@ -525,6 +533,29 @@ function SettingsPageInner() {
       window.dispatchEvent(new CustomEvent('ac:ui-mode', { detail: mode }));
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Could not update mode');
+    }
+  }
+
+  async function saveColorScheme(scheme: ColorSchemePreference) {
+    setError(null);
+    setNotice(null);
+    try {
+      await api('/api/v1/me/color-scheme', {
+        method: 'PATCH',
+        body: JSON.stringify({ colorScheme: scheme }),
+      });
+      setColorScheme(scheme);
+      applyColorScheme(scheme);
+      setNotice(
+        scheme === 'DARK'
+          ? 'Dark theme on — deep navy backgrounds with Avyro gradients.'
+          : scheme === 'LIGHT'
+            ? 'Light theme on — bright paper backgrounds.'
+            : 'Theme follows your device appearance.',
+      );
+      window.dispatchEvent(new CustomEvent(COLOR_SCHEME_EVENT, { detail: scheme }));
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Could not update theme');
     }
   }
 
@@ -1321,31 +1352,55 @@ function SettingsPageInner() {
       ) : null}
 
       {tab === 'display' ? (
-        <div className="ac-card max-w-lg space-y-4 p-6">
-          <h2 className="font-display text-lg font-semibold">Display mode</h2>
-          <p className="text-sm text-ink-soft">
-            Simple keeps the left bar focused on money in/out. Accountant mode is a
-            preference for bookkeepers — ledger tools stay under Settings → More tools.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              className={
-                uiMode === 'SIMPLE' ? 'ac-btn-primary' : 'ac-btn-secondary'
-              }
-              onClick={() => saveUiMode('SIMPLE')}
-            >
-              Simple
-            </button>
-            <button
-              type="button"
-              className={
-                uiMode === 'ACCOUNTANT' ? 'ac-btn-primary' : 'ac-btn-secondary'
-              }
-              onClick={() => saveUiMode('ACCOUNTANT')}
-            >
-              Accountant
-            </button>
+        <div className="space-y-6">
+          <div className="ac-card max-w-lg space-y-4 p-6">
+            <h2 className="font-display text-lg font-semibold">Appearance</h2>
+            <p className="text-sm text-ink-soft">
+              Choose light or dark theme, or match your device. Dark is the default Avyro look —
+              deep navy surfaces with cyan-to-purple gradients.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {(['DARK', 'LIGHT', 'SYSTEM'] as const).map((scheme) => (
+                <button
+                  key={scheme}
+                  type="button"
+                  className={
+                    colorScheme === scheme ? 'ac-btn-primary' : 'ac-btn-secondary'
+                  }
+                  onClick={() => saveColorScheme(scheme)}
+                >
+                  {scheme === 'DARK' ? 'Dark' : scheme === 'LIGHT' ? 'Light' : 'System'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="ac-card max-w-lg space-y-4 p-6">
+            <h2 className="font-display text-lg font-semibold">Display mode</h2>
+            <p className="text-sm text-ink-soft">
+              Simple keeps the left bar focused on money in/out. Accountant mode is a
+              preference for bookkeepers — ledger tools stay under Settings → More tools.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                className={
+                  uiMode === 'SIMPLE' ? 'ac-btn-primary' : 'ac-btn-secondary'
+                }
+                onClick={() => saveUiMode('SIMPLE')}
+              >
+                Simple
+              </button>
+              <button
+                type="button"
+                className={
+                  uiMode === 'ACCOUNTANT' ? 'ac-btn-primary' : 'ac-btn-secondary'
+                }
+                onClick={() => saveUiMode('ACCOUNTANT')}
+              >
+                Accountant
+              </button>
+            </div>
           </div>
         </div>
       ) : null}
