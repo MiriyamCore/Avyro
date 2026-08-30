@@ -9,6 +9,8 @@ import type { RoleName } from '@avyro/types';
 import { hashPassword, verifyPassword } from 'better-auth/crypto';
 import { LocalObjectStorage } from '../storage/object-storage.js';
 
+const credentialIssuer = 'local:credential';
+
 const ROLE_RANK: Record<RoleName, number> = {
   OWNER: 100,
   ACCOUNTANT: 80,
@@ -311,6 +313,7 @@ export class OrganizationsService {
           emailVerified: true,
           accounts: {
             create: {
+              issuer: credentialIssuer,
               accountId: email,
               providerId: 'credential',
               password: passwordHash,
@@ -334,7 +337,7 @@ export class OrganizationsService {
       }
       const passwordHash = await hashPassword(body.password);
       const account = await prisma.account.findFirst({
-        where: { userId: user.id, providerId: 'credential' },
+        where: { userId: user.id, providerId: 'credential', issuer: credentialIssuer },
       });
       if (account) {
         await prisma.account.update({
@@ -345,6 +348,7 @@ export class OrganizationsService {
         await prisma.account.create({
           data: {
             userId: user.id,
+            issuer: credentialIssuer,
             accountId: email,
             providerId: 'credential',
             password: passwordHash,
@@ -471,7 +475,7 @@ export class OrganizationsService {
     }
     const passwordHash = await hashPassword(password);
     const account = await prisma.account.findFirst({
-      where: { userId: membership.userId, providerId: 'credential' },
+      where: { userId: membership.userId, providerId: 'credential', issuer: credentialIssuer },
     });
     if (!account) {
       const user = await prisma.user.findUniqueOrThrow({
@@ -480,6 +484,7 @@ export class OrganizationsService {
       await prisma.account.create({
         data: {
           userId: user.id,
+          issuer: credentialIssuer,
           accountId: user.email,
           providerId: 'credential',
           password: passwordHash,
