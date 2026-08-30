@@ -1,6 +1,14 @@
+import { config as loadEnv } from 'dotenv';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { AccountType, RoleName, UiMode } from '../src/generated/prisma/client.js';
 import { hashPassword } from 'better-auth/crypto';
 import { prisma } from '../src/index.js';
+
+const envPath = resolve(import.meta.dirname, '../../../.env');
+if (existsSync(envPath)) {
+  loadEnv({ path: envPath, override: false });
+}
 
 /** Better Auth 1.7 local credential issuer (`createLocalAccountIssuer('credential')`). */
 const credentialIssuer = 'local:credential';
@@ -107,6 +115,12 @@ async function main() {
   const email = process.env.SEED_OWNER_EMAIL ?? 'owner@demo.local';
   const password = process.env.SEED_OWNER_PASSWORD ?? 'ChangeMeNow1!';
   const name = process.env.SEED_OWNER_NAME ?? 'Demo Owner';
+  const workspaceName = process.env.SEED_WORKSPACE_NAME ?? 'Demo Workspace';
+  const workspaceSlug = process.env.SEED_WORKSPACE_SLUG ?? 'demo-workspace';
+  const orgName = process.env.SEED_ORG_NAME ?? 'Demo Trading Co';
+  const includeDemoData =
+    (process.env.SEED_DEMO_DATA ??
+      (process.env.NODE_ENV === 'production' ? 'false' : 'true')) === 'true';
 
   const passwordHash = await hashPassword(password);
 
@@ -142,24 +156,24 @@ async function main() {
   }
 
   const workspace = await prisma.workspace.upsert({
-    where: { slug: 'demo-workspace' },
-    update: { name: 'Demo Workspace' },
+    where: { slug: workspaceSlug },
+    update: { name: workspaceName },
     create: {
-      name: 'Demo Workspace',
-      slug: 'demo-workspace',
+      name: workspaceName,
+      slug: workspaceSlug,
     },
   });
 
   let organization = await prisma.organization.findFirst({
-    where: { workspaceId: workspace.id, name: 'Demo Trading Co' },
+    where: { workspaceId: workspace.id, name: orgName },
   });
 
   if (!organization) {
     organization = await prisma.organization.create({
       data: {
         workspaceId: workspace.id,
-        name: 'Demo Trading Co',
-        legalName: 'Demo Trading Co',
+        name: orgName,
+        legalName: orgName,
         legalType: 'Sole Proprietorship',
         businessActivity: 'General Trading',
         countryCode: 'BD',
@@ -226,24 +240,26 @@ async function main() {
     });
   }
 
-  const inoryum = await prisma.customer.findFirst({
-    where: { organizationId: organization.id, name: 'Inoryum Ltd' },
-  });
-  if (!inoryum) {
-    await prisma.customer.create({
-      data: {
-        organizationId: organization.id,
-        customerNumber: 'CUS-0001',
-        name: 'Inoryum Ltd',
-        legalName: 'Inoryum Ltd',
-        type: 'BUSINESS',
-        countryCode: 'GB',
-        defaultCurrency: 'GBP',
-        isRelatedParty: true,
-        email: 'billing@inoryum.example',
-        notes: 'Related-party UK customer (SPEC seed)',
-      },
+  if (includeDemoData) {
+    const inoryum = await prisma.customer.findFirst({
+      where: { organizationId: organization.id, name: 'Inoryum Ltd' },
     });
+    if (!inoryum) {
+      await prisma.customer.create({
+        data: {
+          organizationId: organization.id,
+          customerNumber: 'CUS-0001',
+          name: 'Inoryum Ltd',
+          legalName: 'Inoryum Ltd',
+          type: 'BUSINESS',
+          countryCode: 'GB',
+          defaultCurrency: 'GBP',
+          isRelatedParty: true,
+          email: 'billing@inoryum.example',
+          notes: 'Related-party UK customer (SPEC seed)',
+        },
+      });
+    }
   }
 
   await prisma.auditLog.create({
@@ -260,7 +276,9 @@ async function main() {
   console.log('Seed complete');
   console.log(`  Owner: ${email}`);
   console.log(`  Organisation: ${organization.name} (${organization.id})`);
-  console.log('  Related-party customer: Inoryum Ltd (GBP)');
+  if (includeDemoData) {
+    console.log('  Related-party customer: Inoryum Ltd (GBP)');
+  }
   console.log('  TIN/BIN left empty (owner must enter real values)');
 }
 

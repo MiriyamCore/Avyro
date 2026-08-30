@@ -213,6 +213,16 @@ pnpm dev
 | Email | `owner@demo.local` (or `SEED_OWNER_EMAIL`) |
 | Password | `ChangeMeNow1!` (or `SEED_OWNER_PASSWORD`) |
 
+### Production (Docker)
+
+Local `docker compose` is Postgres + Redis only. To self-host the full stack in production, see [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md):
+
+```bash
+cp .env.production.example .env   # on the server, fill in secrets
+./infra/scripts/deploy.sh --seed  # first boot
+./infra/scripts/deploy.sh         # later updates
+```
+
 ### 5. Worker (optional)
 
 Email notifications are queued from the API and processed by the worker. SMTP is optional — without it, the worker logs a stub.
@@ -254,6 +264,8 @@ avyro/
 │   └── ui/               Shared UI primitives
 ├── docs/                 Architecture, compliance, API, deployment guides
 ├── docker-compose.yml    PostgreSQL + Redis for local dev
+├── docker-compose.prod.yml  Full production stack
+├── Dockerfile            Production image (web, API, worker)
 └── .github/workflows/    CI (typecheck, test, build)
 ```
 

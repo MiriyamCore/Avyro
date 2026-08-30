@@ -1,3 +1,7 @@
+# Local development only — Postgres + Redis.
+# Production: docker-compose.prod.yml and ./infra/scripts/deploy.sh
+# See docs/DEPLOYMENT.md.
+
 services:
   postgres:
     image: postgres:16-alpine
