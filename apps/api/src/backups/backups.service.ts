@@ -3,22 +3,18 @@ import {
   Inject,
   Injectable,
   NotFoundException,
-  OnModuleInit,
 } from '@nestjs/common';
 import { prisma } from '@avyro/database';
 import type { BackupFrequency } from '@avyro/database';
 import { AuditService } from '../audit/audit.service.js';
 import { OrganizationsService } from '../organizations/organizations.service.js';
-import {
-  executeBackupRecord,
-  restoreBackupRecord,
-  runScheduledBackupScan,
-} from './backup-executor.js';
+import { restoreBackupRecord } from './backup-executor.js';
 import {
   buildBackupFilename,
   buildBackupKey,
   resolveBackupStorage,
 } from './backup-storage.js';
+import { enqueueBackup } from '../queue/backup.queue.js';
 
 const FREQUENCIES = ['OFF', 'DAILY', 'WEEKLY', 'MONTHLY'] as const;
 
@@ -51,24 +47,13 @@ function serializeBackup(record: {
 }
 
 @Injectable()
-export class BackupsService implements OnModuleInit {
-  private schedulerTimer: NodeJS.Timeout | null = null;
-
+export class BackupsService {
   constructor(
     @Inject(OrganizationsService)
     private readonly organizations: OrganizationsService,
     @Inject(AuditService)
     private readonly audit: AuditService,
   ) {}
-
-  onModuleInit() {
-    const intervalMs = Number(process.env.BACKUP_SCHEDULER_INTERVAL_MS ?? 15 * 60 * 1000);
-    this.schedulerTimer = setInterval(() => {
-      void runScheduledBackupScan().catch((err) => {
-        console.error('[backups] scheduled scan failed', err);
-      });
-    }, intervalMs);
-  }
 
   async getSettings(organizationId: string, userId: string) {
     await this.organizations.requireRole(organizationId, userId, 'OWNER');
@@ -160,7 +145,7 @@ export class BackupsService implements OnModuleInit {
       },
     });
 
-    void executeBackupRecord(record.id);
+    await enqueueBackup({ backupId: record.id });
     return serializeBackup(record);
   }
 

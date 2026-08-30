@@ -9,6 +9,7 @@ import {
   isBackupDue,
   resolveBackupStorage,
 } from './backup-storage.js';
+import { enqueueBackup } from '../queue/backup.queue.js';
 
 export async function executeBackupRecord(recordId: string) {
   const record = await prisma.backupRecord.update({
@@ -107,7 +108,7 @@ export async function runScheduledBackupScan() {
       },
     });
 
-    void executeBackupRecord(record.id);
+    void enqueueBackup({ backupId: record.id });
     started += 1;
   }
 

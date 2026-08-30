@@ -107,6 +107,13 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      STORAGE_ROOT: /data/storage
+      BACKUP_ROOT: /data/backups
+    volumes:
+      - storage_data:/data/storage
+      - backup_data:/data/backups
     command: ["node", "apps/worker/dist/main.js"]
 
   web:

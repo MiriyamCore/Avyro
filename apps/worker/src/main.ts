@@ -2,6 +2,10 @@ import 'dotenv/config';
 import { Worker } from 'bullmq';
 import nodemailer from 'nodemailer';
 import { processSendEmailJob, type SendEmailJob } from './jobs/send-email.js';
+import {
+  processBackupJob,
+  type BackupWorkerJob,
+} from './jobs/run-backup.js';
 
 const redisUrl = process.env.REDIS_URL ?? 'redis://localhost:6379';
 
@@ -21,20 +25,35 @@ const transporter = smtpConfigured
     })
   : null;
 
-const worker = new Worker<SendEmailJob>(
+const emailWorker = new Worker<SendEmailJob>(
   'email',
   async (job) => processSendEmailJob(job.data, transporter),
   { connection: { url: redisUrl } },
 );
 
-worker.on('completed', (job) => {
+emailWorker.on('completed', (job) => {
   console.log(`[worker] email job ${job.id} completed`);
 });
 
-worker.on('failed', (job, err) => {
+emailWorker.on('failed', (job, err) => {
   console.error(`[worker] email job ${job?.id} failed`, err);
+});
+
+const backupWorker = new Worker<BackupWorkerJob>(
+  'backup',
+  async (job) => processBackupJob(job.data),
+  { connection: { url: redisUrl } },
+);
+
+backupWorker.on('completed', (job) => {
+  console.log(`[worker] backup job ${job.id} completed`);
+});
+
+backupWorker.on('failed', (job, err) => {
+  console.error(`[worker] backup job ${job?.id} failed`, err);
 });
 
 console.log(
   `[worker] listening on email queue (SMTP ${smtpConfigured ? 'enabled' : 'log-only stub'})`,
 );
+console.log('[worker] listening on backup queue');
