@@ -38,4 +38,21 @@ describe('backup-storage', () => {
     process.env.AWS_ACCESS_KEY_ID = prev.key;
     process.env.AWS_SECRET_ACCESS_KEY = prev.secret;
   });
+
+  it('routes to S3 when bucket and credentials are configured', () => {
+    const prev = {
+      bucket: process.env.S3_BUCKET,
+      key: process.env.AWS_ACCESS_KEY_ID,
+      secret: process.env.AWS_SECRET_ACCESS_KEY,
+    };
+    process.env.S3_BUCKET = 'test-bucket';
+    process.env.AWS_ACCESS_KEY_ID = 'test-key';
+    process.env.AWS_SECRET_ACCESS_KEY = 'test-secret';
+
+    expect(resolveBackupStorage().kind).toBe('S3');
+
+    process.env.S3_BUCKET = prev.bucket;
+    process.env.AWS_ACCESS_KEY_ID = prev.key;
+    process.env.AWS_SECRET_ACCESS_KEY = prev.secret;
+  });
 });

@@ -69,7 +69,6 @@ export async function executeBackupRecord(recordId: string) {
         completedAt: new Date(),
       },
     });
-    throw err;
   } finally {
     await rm(tmpPath, { force: true });
   }
@@ -81,7 +80,7 @@ export async function runScheduledBackupScan() {
     select: { id: true, backupFrequency: true, backupLastRunAt: true },
   });
 
-  let enqueued = 0;
+  let started = 0;
   for (const org of orgs) {
     if (!isBackupDue(org.backupFrequency, org.backupLastRunAt)) continue;
 
@@ -104,16 +103,15 @@ export async function runScheduledBackupScan() {
         storageKey,
         filename,
         status: 'PENDING',
-        triggeredBy: null,
+        triggeredBy: 'scheduler',
       },
     });
 
-    const { enqueueBackup } = await import('../queue/backup.queue.js');
-    await enqueueBackup({ backupId: record.id });
-    enqueued += 1;
+    void executeBackupRecord(record.id);
+    started += 1;
   }
 
-  return { enqueued };
+  return { started };
 }
 
 export async function restoreBackupRecord(options: {
@@ -145,7 +143,7 @@ export async function restoreBackupRecord(options: {
     return await restoreBackupArchive({
       databaseUrl,
       archivePath: tmpPath,
-      organizationId: record.organizationId,
+      organizationId: options.organizationId,
     });
   } finally {
     await rm(tmpPath, { force: true });

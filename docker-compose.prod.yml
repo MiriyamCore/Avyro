@@ -82,8 +82,10 @@ services:
       NODE_ENV: production
       API_INTERNAL_URL: http://api:3001
       STORAGE_ROOT: /data/storage
+      BACKUP_ROOT: /data/backups
     volumes:
       - storage_data:/data/storage
+      - backup_data:/data/backups
     command: ["node", "apps/api/dist/main.js"]
     healthcheck:
       test:
@@ -170,5 +172,6 @@ volumes:
   postgres_data:
   redis_data:
   storage_data:
+  backup_data:
   certbot_www:
   certbot_certs:

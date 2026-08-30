@@ -7,16 +7,16 @@ import {
 } from '@nestjs/common';
 import { prisma } from '@avyro/database';
 import type { BackupFrequency } from '@avyro/database';
-import { readFile, rm, writeFile } from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
 import { AuditService } from '../audit/audit.service.js';
 import { OrganizationsService } from '../organizations/organizations.service.js';
-import { createBackupArchive, restoreBackupArchive } from './backup-db.js';
+import {
+  executeBackupRecord,
+  restoreBackupRecord,
+  runScheduledBackupScan,
+} from './backup-executor.js';
 import {
   buildBackupFilename,
   buildBackupKey,
-  isBackupDue,
   resolveBackupStorage,
 } from './backup-storage.js';
 
@@ -64,8 +64,8 @@ export class BackupsService implements OnModuleInit {
   onModuleInit() {
     const intervalMs = Number(process.env.BACKUP_SCHEDULER_INTERVAL_MS ?? 15 * 60 * 1000);
     this.schedulerTimer = setInterval(() => {
-      void this.runDueScheduledBackups().catch((err) => {
-        console.error('[backups] scheduled run failed', err);
+      void runScheduledBackupScan().catch((err) => {
+        console.error('[backups] scheduled scan failed', err);
       });
     }, intervalMs);
   }
@@ -129,10 +129,38 @@ export class BackupsService implements OnModuleInit {
 
   async triggerBackup(organizationId: string, userId: string) {
     await this.organizations.requireRole(organizationId, userId, 'OWNER');
-    const record = await this.startBackup(organizationId, userId);
-    void this.executeBackup(record.id).catch((err) => {
-      console.error(`[backups] backup ${record.id} failed`, err);
+
+    const inFlight = await prisma.backupRecord.count({
+      where: {
+        organizationId,
+        status: { in: ['PENDING', 'RUNNING'] },
+      },
     });
+    if (inFlight > 0) {
+      throw new BadRequestException({
+        error: {
+          code: 'BACKUP_IN_PROGRESS',
+          message: 'A backup is already running for this organisation.',
+        },
+      });
+    }
+
+    const filename = buildBackupFilename();
+    const storageKey = buildBackupKey(organizationId, filename);
+    const { kind } = resolveBackupStorage();
+
+    const record = await prisma.backupRecord.create({
+      data: {
+        organizationId,
+        storage: kind,
+        storageKey,
+        filename,
+        status: 'PENDING',
+        triggeredBy: userId,
+      },
+    });
+
+    void executeBackupRecord(record.id);
     return serializeBackup(record);
   }
 
@@ -161,140 +189,19 @@ export class BackupsService implements OnModuleInit {
       });
     }
 
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      throw new BadRequestException({
-        error: { code: 'NO_DATABASE_URL', message: 'DATABASE_URL is not configured.' },
-      });
-    }
-
-    const tmpPath = path.join(os.tmpdir(), `avyro-restore-${backupId}.tar.gz`);
-    const { storage } = resolveBackupStorage();
-    const body = await storage.getObject(record.storageKey);
-    await writeFile(tmpPath, body);
-
-    try {
-      const result = await restoreBackupArchive({
-        databaseUrl,
-        archivePath: tmpPath,
-      });
-      await this.audit.write({
-        organizationId,
-        userId,
-        action: 'RESTORE',
-        entityType: 'BackupRecord',
-        entityId: backupId,
-        afterJson: { restoredSqlBytes: result.restoredSqlBytes },
-      });
-      return {
-        restored: true,
-        backupId,
-        restoredSqlBytes: result.restoredSqlBytes,
-      };
-    } finally {
-      await rm(tmpPath, { force: true });
-    }
-  }
-
-  private async startBackup(organizationId: string, triggeredBy: string) {
-    const filename = buildBackupFilename();
-    const storageKey = buildBackupKey(organizationId, filename);
-    const { kind } = resolveBackupStorage();
-
-    return prisma.backupRecord.create({
-      data: {
-        organizationId,
-        storage: kind,
-        storageKey,
-        filename,
-        status: 'PENDING',
-        triggeredBy,
-      },
+    const result = await restoreBackupRecord({ backupId, organizationId });
+    await this.audit.write({
+      organizationId,
+      userId,
+      action: 'RESTORE',
+      entityType: 'BackupRecord',
+      entityId: backupId,
+      afterJson: { restoredSqlBytes: result.restoredSqlBytes },
     });
-  }
-
-  private async executeBackup(recordId: string) {
-    const record = await prisma.backupRecord.update({
-      where: { id: recordId },
-      data: { status: 'RUNNING' },
-    });
-
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      await prisma.backupRecord.update({
-        where: { id: recordId },
-        data: {
-          status: 'FAILED',
-          errorMessage: 'DATABASE_URL is not configured.',
-          completedAt: new Date(),
-        },
-      });
-      return;
-    }
-
-    const tmpPath = path.join(os.tmpdir(), record.filename);
-
-    try {
-      await createBackupArchive({
-        databaseUrl,
-        organizationId: record.organizationId,
-        outputPath: tmpPath,
-      });
-
-      const body = await readFile(tmpPath);
-      const { storage } = resolveBackupStorage();
-      await storage.putObject({
-        key: record.storageKey,
-        body,
-        contentType: 'application/gzip',
-      });
-
-      await prisma.backupRecord.update({
-        where: { id: recordId },
-        data: {
-          status: 'COMPLETED',
-          sizeBytes: BigInt(body.length),
-          completedAt: new Date(),
-          errorMessage: null,
-        },
-      });
-
-      await prisma.organization.update({
-        where: { id: record.organizationId },
-        data: { backupLastRunAt: new Date() },
-      });
-    } catch (err) {
-      await prisma.backupRecord.update({
-        where: { id: recordId },
-        data: {
-          status: 'FAILED',
-          errorMessage: err instanceof Error ? err.message : String(err),
-          completedAt: new Date(),
-        },
-      });
-    } finally {
-      await rm(tmpPath, { force: true });
-    }
-  }
-
-  private async runDueScheduledBackups() {
-    const orgs = await prisma.organization.findMany({
-      where: { backupFrequency: { not: 'OFF' } },
-      select: { id: true, backupFrequency: true, backupLastRunAt: true },
-    });
-
-    for (const org of orgs) {
-      if (!isBackupDue(org.backupFrequency, org.backupLastRunAt)) continue;
-      const running = await prisma.backupRecord.findFirst({
-        where: {
-          organizationId: org.id,
-          status: { in: ['PENDING', 'RUNNING'] },
-        },
-      });
-      if (running) continue;
-
-      const record = await this.startBackup(org.id, 'scheduler');
-      await this.executeBackup(record.id);
-    }
+    return {
+      restored: true,
+      backupId,
+      restoredSqlBytes: result.restoredSqlBytes,
+    };
   }
 }

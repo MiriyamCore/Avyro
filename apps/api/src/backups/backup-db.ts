@@ -102,10 +102,10 @@ export async function createBackupArchive(options: {
     JSON.stringify(manifest, null, 2),
   );
 
-  const storageSrc = filesBackupSourceRoot();
-  const storageDest = path.join(workDir, 'storage');
+  const orgStorageSrc = path.join(filesBackupSourceRoot(), options.organizationId);
+  const storageDest = path.join(workDir, 'storage', options.organizationId);
   try {
-    await cp(storageSrc, storageDest, { recursive: true });
+    await cp(orgStorageSrc, storageDest, { recursive: true });
   } catch {
     await mkdir(storageDest, { recursive: true });
   }
@@ -119,6 +119,7 @@ export async function createBackupArchive(options: {
 export async function restoreBackupArchive(options: {
   databaseUrl: string;
   archivePath: string;
+  organizationId: string;
 }) {
   const workDir = path.join(os.tmpdir(), `avyro-restore-${Date.now()}`);
   await mkdir(workDir, { recursive: true });
@@ -148,12 +149,20 @@ export async function restoreBackupArchive(options: {
     },
   );
 
-  const storageSrc = path.join(workDir, 'storage');
-  const storageDest = filesBackupSourceRoot();
+  const orgStorageSrc = path.join(workDir, 'storage', options.organizationId);
+  const legacyStorageSrc = path.join(workDir, 'storage');
+  const storageDest = path.join(filesBackupSourceRoot(), options.organizationId);
   try {
-    await cp(storageSrc, storageDest, { recursive: true, force: true });
+    await cp(orgStorageSrc, storageDest, { recursive: true, force: true });
   } catch {
-    // storage folder may be empty in older backups
+    try {
+      await cp(legacyStorageSrc, filesBackupSourceRoot(), {
+        recursive: true,
+        force: true,
+      });
+    } catch {
+      // documents folder may be empty
+    }
   }
 
   await rm(workDir, { recursive: true, force: true });

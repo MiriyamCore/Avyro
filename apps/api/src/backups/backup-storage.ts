@@ -11,7 +11,7 @@ export type BackupStorageKind = 'LOCAL' | 'S3';
 export function backupRoot(): string {
   return (
     process.env.BACKUP_ROOT ??
-    path.resolve(process.cwd(), '.data/backups')
+    path.resolve(process.cwd(), 'data/backups')
   );
 }
 

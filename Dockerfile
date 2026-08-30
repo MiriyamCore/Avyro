@@ -36,9 +36,9 @@ FROM base AS runner
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends openssl ca-certificates \
+  && apt-get install -y --no-install-recommends openssl ca-certificates postgresql-client \
   && rm -rf /var/lib/apt/lists/* \
-  && mkdir -p /data/storage \
+  && mkdir -p /data/storage /data/backups \
   && chown -R node:node /data
 COPY --from=build --chown=node:node /app /app
 USER node
