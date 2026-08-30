@@ -57,6 +57,7 @@ export const ModelName = {
   Verification: 'Verification',
   Workspace: 'Workspace',
   Organization: 'Organization',
+  BackupRecord: 'BackupRecord',
   Membership: 'Membership',
   AuditLog: 'AuditLog',
   Document: 'Document',
@@ -219,10 +220,29 @@ export const OrganizationScalarFieldEnum = {
   tinStatus: 'tinStatus',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  backupFrequency: 'backupFrequency',
+  backupLastRunAt: 'backupLastRunAt'
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
+export const BackupRecordScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storage: 'storage',
+  storageKey: 'storageKey',
+  filename: 'filename',
+  sizeBytes: 'sizeBytes',
+  status: 'status',
+  errorMessage: 'errorMessage',
+  triggeredBy: 'triggeredBy',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+} as const
+
+export type BackupRecordScalarFieldEnum = (typeof BackupRecordScalarFieldEnum)[keyof typeof BackupRecordScalarFieldEnum]
 
 
 export const MembershipScalarFieldEnum = {

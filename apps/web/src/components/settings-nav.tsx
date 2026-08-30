@@ -10,6 +10,7 @@ export type SettingsTab =
   | 'invoices'
   | 'uploads'
   | 'team'
+  | 'backups'
   | 'security'
   | 'display'
   | 'more';
@@ -24,6 +25,7 @@ export const SETTINGS_SECTIONS: {
   { id: 'invoices', label: 'Invoices', hint: 'Prefix, terms, footer' },
   { id: 'uploads', label: 'Uploads', hint: 'Receipts and files' },
   { id: 'team', label: 'Team', hint: 'Members and roles' },
+  { id: 'backups', label: 'Backups', hint: 'Schedule and restore' },
   { id: 'security', label: 'Security', hint: 'Password' },
   { id: 'display', label: 'Display', hint: 'Simple / Accountant' },
   { id: 'more', label: 'More tools', hint: 'Compliance, books, extras' },
@@ -39,6 +41,7 @@ export function parseSettingsTab(raw: string | null): SettingsTab {
     raw === 'invoices' ||
     raw === 'uploads' ||
     raw === 'team' ||
+    raw === 'backups' ||
     raw === 'security' ||
     raw === 'display' ||
     raw === 'more'

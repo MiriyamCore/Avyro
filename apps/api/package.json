@@ -23,6 +23,7 @@
     "@avyro/database": "workspace:*",
     "@avyro/types": "workspace:*",
     "@avyro/validation": "workspace:*",
+    "@aws-sdk/client-s3": "^3.1121.0",
     "@nestjs/common": "^12.0.1",
     "@nestjs/core": "^12.0.1",
     "@nestjs/platform-express": "^12.0.1",

@@ -172,6 +172,31 @@ function SettingsPageInner() {
   const isOwner = me?.currentOrganization?.role === 'OWNER';
   const hasLogo = Boolean(org?.logoUrl);
 
+  type BackupRow = {
+    id: string;
+    storage: string;
+    filename: string;
+    sizeBytes: string;
+    status: string;
+    errorMessage: string | null;
+    createdAt: string;
+    completedAt: string | null;
+  };
+
+  type BackupSettings = {
+    frequency: 'OFF' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
+    lastRunAt: string | null;
+    storageTarget: 'LOCAL' | 'S3';
+    latestBackup: BackupRow | null;
+  };
+
+  const [backupSettings, setBackupSettings] = useState<BackupSettings | null>(null);
+  const [backups, setBackups] = useState<BackupRow[]>([]);
+  const [backupFrequency, setBackupFrequency] = useState<BackupSettings['frequency']>('OFF');
+  const [restoreConfirm, setRestoreConfirm] = useState('');
+  const [restoreTarget, setRestoreTarget] = useState<string | null>(null);
+  const [backingUp, setBackingUp] = useState(false);
+
   function refresh() {
     return Promise.all([
       api<Me>('/api/v1/me'),
@@ -214,6 +239,90 @@ function SettingsPageInner() {
       setError(err instanceof ApiError ? err.message : 'Failed to load settings'),
     );
   }, []);
+
+  async function loadBackups() {
+    if (!isOwner) return;
+    const [settingsRes, listRes] = await Promise.all([
+      api<BackupSettings>('/api/v1/backups/settings'),
+      api<BackupRow[]>('/api/v1/backups'),
+    ]);
+    setBackupSettings(settingsRes);
+    setBackupFrequency(settingsRes.frequency);
+    setBackups(listRes);
+  }
+
+  useEffect(() => {
+    if (tab === 'backups' && isOwner) {
+      loadBackups().catch((err) =>
+        setError(err instanceof ApiError ? err.message : 'Failed to load backups'),
+      );
+    }
+  }, [tab, isOwner]);
+
+  async function saveBackupFrequency(e: FormEvent) {
+    e.preventDefault();
+    if (!isOwner) return;
+    setSaving(true);
+    setError(null);
+    setNotice(null);
+    try {
+      await api('/api/v1/backups/settings', {
+        method: 'PATCH',
+        body: JSON.stringify({ frequency: backupFrequency }),
+      });
+      setNotice('Backup schedule saved.');
+      await loadBackups();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Could not save schedule');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function runBackupNow() {
+    if (!isOwner) return;
+    setBackingUp(true);
+    setError(null);
+    setNotice(null);
+    try {
+      await api('/api/v1/backups', { method: 'POST' });
+      setNotice('Backup started — refresh in a moment to see status.');
+      await loadBackups();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Backup failed to start');
+    } finally {
+      setBackingUp(false);
+    }
+  }
+
+  async function restoreBackup(backupId: string) {
+    if (!isOwner) return;
+    setSaving(true);
+    setError(null);
+    setNotice(null);
+    try {
+      await api(`/api/v1/backups/${backupId}/restore`, {
+        method: 'POST',
+        body: JSON.stringify({ confirm: restoreConfirm }),
+      });
+      setNotice('Restore completed. Reload the app to pick up restored data.');
+      setRestoreConfirm('');
+      setRestoreTarget(null);
+      await loadBackups();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Restore failed');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function formatBytes(raw: string) {
+    const n = Number(raw);
+    if (!Number.isFinite(n) || n <= 0) return '—';
+    if (n < 1024) return `${n} B`;
+    if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+    return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+  }
 
   async function saveBusiness(e: FormEvent) {
     e.preventDefault();
@@ -977,6 +1086,159 @@ function SettingsPageInner() {
               </tbody>
             </table>
           </div>
+        </div>
+      ) : null}
+
+      {tab === 'backups' ? (
+        <div className="space-y-6 max-w-3xl">
+          {!isOwner ? (
+            <p className="text-sm text-ink-soft">
+              Only the organisation owner can manage backups and restore.
+            </p>
+          ) : (
+            <>
+              <div className="ac-card space-y-4 p-6">
+                <h2 className="font-display text-lg font-semibold">Backup schedule</h2>
+                <p className="text-sm text-ink-soft">
+                  Backups include the full database and uploaded files. When S3 is
+                  configured in your environment, archives are stored remotely;
+                  otherwise they are saved under{' '}
+                  <code className="text-xs">BACKUP_ROOT</code> on the server.
+                </p>
+                {backupSettings ? (
+                  <p className="text-xs text-muted">
+                    Storage target:{' '}
+                    <strong>{backupSettings.storageTarget === 'S3' ? 'Amazon S3 / R2' : 'Local disk'}</strong>
+                    {backupSettings.lastRunAt
+                      ? ` · Last run ${new Date(backupSettings.lastRunAt).toLocaleString()}`
+                      : ' · No backup run yet'}
+                  </p>
+                ) : null}
+                <form onSubmit={saveBackupFrequency} className="flex flex-wrap items-end gap-4">
+                  <label className="block text-sm">
+                    <span className="mb-1 block text-muted">Frequency</span>
+                    <select
+                      className="ac-input min-w-[10rem]"
+                      value={backupFrequency}
+                      onChange={(e) =>
+                        setBackupFrequency(
+                          e.target.value as BackupSettings['frequency'],
+                        )
+                      }
+                    >
+                      <option value="OFF">Off</option>
+                      <option value="DAILY">Daily</option>
+                      <option value="WEEKLY">Weekly</option>
+                      <option value="MONTHLY">Monthly</option>
+                    </select>
+                  </label>
+                  <button type="submit" className="ac-btn-secondary" disabled={saving}>
+                    Save schedule
+                  </button>
+                  <button
+                    type="button"
+                    className="ac-btn-primary"
+                    disabled={backingUp}
+                    onClick={() => void runBackupNow()}
+                  >
+                    {backingUp ? 'Starting…' : 'Backup now'}
+                  </button>
+                </form>
+              </div>
+
+              <div className="ac-card overflow-hidden">
+                <div className="border-b border-line px-4 py-3">
+                  <h2 className="font-display text-lg font-semibold">Recent backups</h2>
+                </div>
+                <table className="ac-table">
+                  <thead>
+                    <tr>
+                      <th>When</th>
+                      <th>File</th>
+                      <th>Size</th>
+                      <th>Storage</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {backups.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="text-muted">
+                          No backups yet. Run &quot;Backup now&quot; to create one.
+                        </td>
+                      </tr>
+                    ) : (
+                      backups.map((b) => (
+                        <tr key={b.id}>
+                          <td className="whitespace-nowrap text-sm">
+                            {new Date(b.createdAt).toLocaleString()}
+                          </td>
+                          <td className="max-w-[12rem] truncate text-sm">{b.filename}</td>
+                          <td className="text-sm">{formatBytes(b.sizeBytes)}</td>
+                          <td className="text-sm">{b.storage}</td>
+                          <td>
+                            <StatusBadge status={b.status} />
+                          </td>
+                          <td>
+                            {b.status === 'COMPLETED' ? (
+                              restoreTarget === b.id ? (
+                                <div className="flex flex-col gap-2">
+                                  <input
+                                    className="ac-input text-xs"
+                                    placeholder='Type RESTORE to confirm'
+                                    value={restoreConfirm}
+                                    onChange={(e) => setRestoreConfirm(e.target.value)}
+                                  />
+                                  <div className="flex gap-2">
+                                    <button
+                                      type="button"
+                                      className="text-xs font-semibold text-danger"
+                                      disabled={saving || restoreConfirm !== 'RESTORE'}
+                                      onClick={() => void restoreBackup(b.id)}
+                                    >
+                                      Confirm restore
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="text-xs text-muted"
+                                      onClick={() => {
+                                        setRestoreTarget(null);
+                                        setRestoreConfirm('');
+                                      }}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="text-xs font-semibold text-danger"
+                                  onClick={() => setRestoreTarget(b.id)}
+                                >
+                                  Restore…
+                                </button>
+                              )
+                            ) : b.errorMessage ? (
+                              <span className="text-xs text-danger">{b.errorMessage}</span>
+                            ) : (
+                              <span className="text-xs text-muted">—</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="text-xs text-muted">
+                Restore replaces the entire database and uploaded files on this server.
+                All users should sign out first. This cannot be undone.
+              </p>
+            </>
+          )}
         </div>
       ) : null}
 

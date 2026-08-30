@@ -88,6 +88,34 @@ export const DocumentCategory = {
 export type DocumentCategory = (typeof DocumentCategory)[keyof typeof DocumentCategory]
 
 
+export const BackupFrequency = {
+  OFF: 'OFF',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY'
+} as const
+
+export type BackupFrequency = (typeof BackupFrequency)[keyof typeof BackupFrequency]
+
+
+export const BackupStorage = {
+  LOCAL: 'LOCAL',
+  S3: 'S3'
+} as const
+
+export type BackupStorage = (typeof BackupStorage)[keyof typeof BackupStorage]
+
+
+export const BackupStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type BackupStatus = (typeof BackupStatus)[keyof typeof BackupStatus]
+
+
 export const CustomerType = {
   BUSINESS: 'BUSINESS',
   INDIVIDUAL: 'INDIVIDUAL',

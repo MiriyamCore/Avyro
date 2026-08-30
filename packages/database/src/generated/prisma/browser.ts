@@ -48,6 +48,11 @@ export type Workspace = Prisma.WorkspaceModel
  */
 export type Organization = Prisma.OrganizationModel
 /**
+ * Model BackupRecord
+ * 
+ */
+export type BackupRecord = Prisma.BackupRecordModel
+/**
  * Model Membership
  * 
  */

@@ -16,6 +16,7 @@ import { ReviewModule } from './review/review.module.js';
 import { OperationsModule } from './operations/operations.module.js';
 import { DocumentsModule } from './documents/documents.module.js';
 import { NotificationsModule } from './notifications/notifications.module.js';
+import { BackupsModule } from './backups/backups.module.js';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { NotificationsModule } from './notifications/notifications.module.js';
     OperationsModule,
     DocumentsModule,
     NotificationsModule,
+    BackupsModule,
   ],
   controllers: [HealthController, MeController],
   providers: [SessionGuard],

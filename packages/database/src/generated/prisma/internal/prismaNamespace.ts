@@ -403,6 +403,7 @@ export const ModelName = {
   Verification: 'Verification',
   Workspace: 'Workspace',
   Organization: 'Organization',
+  BackupRecord: 'BackupRecord',
   Membership: 'Membership',
   AuditLog: 'AuditLog',
   Document: 'Document',
@@ -459,7 +460,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "workspace" | "organization" | "membership" | "auditLog" | "document" | "documentLink" | "ledgerAccount" | "accountingPeriod" | "journalEntry" | "journalLine" | "customer" | "invoice" | "invoiceItem" | "payment" | "expense" | "quote" | "quoteItem" | "contract" | "project" | "supplier" | "bill" | "billItem" | "billPayment" | "bankAccount" | "bankTransaction" | "currency" | "exchangeRate" | "gatewayCheckout" | "complianceProfile" | "complianceRecord" | "taxCode" | "vatDocument" | "withholdingEntry" | "challan" | "serviceExportRecord" | "person" | "employeeCompensation" | "asset" | "timeEntry" | "payrollPeriod" | "payrollRun" | "payrollItem" | "payslip"
+    modelProps: "user" | "session" | "account" | "verification" | "workspace" | "organization" | "backupRecord" | "membership" | "auditLog" | "document" | "documentLink" | "ledgerAccount" | "accountingPeriod" | "journalEntry" | "journalLine" | "customer" | "invoice" | "invoiceItem" | "payment" | "expense" | "quote" | "quoteItem" | "contract" | "project" | "supplier" | "bill" | "billItem" | "billPayment" | "bankAccount" | "bankTransaction" | "currency" | "exchangeRate" | "gatewayCheckout" | "complianceProfile" | "complianceRecord" | "taxCode" | "vatDocument" | "withholdingEntry" | "challan" | "serviceExportRecord" | "person" | "employeeCompensation" | "asset" | "timeEntry" | "payrollPeriod" | "payrollRun" | "payrollItem" | "payslip"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -904,6 +905,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrganizationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrganizationCountAggregateOutputType> | number
+        }
+      }
+    }
+    BackupRecord: {
+      payload: Prisma.$BackupRecordPayload<ExtArgs>
+      fields: Prisma.BackupRecordFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BackupRecordFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BackupRecordFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>
+        }
+        findFirst: {
+          args: Prisma.BackupRecordFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BackupRecordFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>
+        }
+        findMany: {
+          args: Prisma.BackupRecordFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>[]
+        }
+        create: {
+          args: Prisma.BackupRecordCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>
+        }
+        createMany: {
+          args: Prisma.BackupRecordCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BackupRecordCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>[]
+        }
+        delete: {
+          args: Prisma.BackupRecordDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>
+        }
+        update: {
+          args: Prisma.BackupRecordUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>
+        }
+        deleteMany: {
+          args: Prisma.BackupRecordDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BackupRecordUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BackupRecordUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>[]
+        }
+        upsert: {
+          args: Prisma.BackupRecordUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BackupRecordPayload>
+        }
+        aggregate: {
+          args: Prisma.BackupRecordAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBackupRecord>
+        }
+        groupBy: {
+          args: Prisma.BackupRecordGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BackupRecordGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BackupRecordCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BackupRecordCountAggregateOutputType> | number
         }
       }
     }
@@ -4083,10 +4158,29 @@ export const OrganizationScalarFieldEnum = {
   tinStatus: 'tinStatus',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  backupFrequency: 'backupFrequency',
+  backupLastRunAt: 'backupLastRunAt'
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
+export const BackupRecordScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storage: 'storage',
+  storageKey: 'storageKey',
+  filename: 'filename',
+  sizeBytes: 'sizeBytes',
+  status: 'status',
+  errorMessage: 'errorMessage',
+  triggeredBy: 'triggeredBy',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+} as const
+
+export type BackupRecordScalarFieldEnum = (typeof BackupRecordScalarFieldEnum)[keyof typeof BackupRecordScalarFieldEnum]
 
 
 export const MembershipScalarFieldEnum = {
@@ -4971,6 +5065,62 @@ export type ListEnumOrganizationStatusFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
+ * Reference to a field of type 'BackupFrequency'
+ */
+export type EnumBackupFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackupFrequency'>
+    
+
+
+/**
+ * Reference to a field of type 'BackupFrequency[]'
+ */
+export type ListEnumBackupFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackupFrequency[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BackupStorage'
+ */
+export type EnumBackupStorageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackupStorage'>
+    
+
+
+/**
+ * Reference to a field of type 'BackupStorage[]'
+ */
+export type ListEnumBackupStorageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackupStorage[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BackupStatus'
+ */
+export type EnumBackupStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackupStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BackupStatus[]'
+ */
+export type ListEnumBackupStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackupStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'RoleName'
  */
 export type EnumRoleNameFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleName'>
@@ -5588,6 +5738,7 @@ export type GlobalOmitConfig = {
   verification?: Prisma.VerificationOmit
   workspace?: Prisma.WorkspaceOmit
   organization?: Prisma.OrganizationOmit
+  backupRecord?: Prisma.BackupRecordOmit
   membership?: Prisma.MembershipOmit
   auditLog?: Prisma.AuditLogOmit
   document?: Prisma.DocumentOmit

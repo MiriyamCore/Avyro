@@ -72,6 +72,8 @@ export type OrganizationMinAggregateOutputType = {
   status: $Enums.OrganizationStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  backupFrequency: $Enums.BackupFrequency | null
+  backupLastRunAt: Date | null
 }
 
 export type OrganizationMaxAggregateOutputType = {
@@ -108,6 +110,8 @@ export type OrganizationMaxAggregateOutputType = {
   status: $Enums.OrganizationStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  backupFrequency: $Enums.BackupFrequency | null
+  backupLastRunAt: Date | null
 }
 
 export type OrganizationCountAggregateOutputType = {
@@ -144,6 +148,8 @@ export type OrganizationCountAggregateOutputType = {
   status: number
   createdAt: number
   updatedAt: number
+  backupFrequency: number
+  backupLastRunAt: number
   _all: number
 }
 
@@ -194,6 +200,8 @@ export type OrganizationMinAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  backupFrequency?: true
+  backupLastRunAt?: true
 }
 
 export type OrganizationMaxAggregateInputType = {
@@ -230,6 +238,8 @@ export type OrganizationMaxAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  backupFrequency?: true
+  backupLastRunAt?: true
 }
 
 export type OrganizationCountAggregateInputType = {
@@ -266,6 +276,8 @@ export type OrganizationCountAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  backupFrequency?: true
+  backupLastRunAt?: true
   _all?: true
 }
 
@@ -389,6 +401,8 @@ export type OrganizationGroupByOutputType = {
   status: $Enums.OrganizationStatus
   createdAt: Date
   updatedAt: Date
+  backupFrequency: $Enums.BackupFrequency
+  backupLastRunAt: Date | null
   _count: OrganizationCountAggregateOutputType | null
   _avg: OrganizationAvgAggregateOutputType | null
   _sum: OrganizationSumAggregateOutputType | null
@@ -448,6 +462,8 @@ export type OrganizationWhereInput = {
   status?: Prisma.EnumOrganizationStatusFilter<"Organization"> | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFilter<"Organization"> | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
   memberships?: Prisma.MembershipListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
@@ -484,6 +500,7 @@ export type OrganizationWhereInput = {
   timeEntries?: Prisma.TimeEntryListRelationFilter
   payrollPeriods?: Prisma.PayrollPeriodListRelationFilter
   payrollRuns?: Prisma.PayrollRunListRelationFilter
+  backups?: Prisma.BackupRecordListRelationFilter
 }
 
 export type OrganizationOrderByWithRelationInput = {
@@ -520,6 +537,8 @@ export type OrganizationOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  backupFrequency?: Prisma.SortOrder
+  backupLastRunAt?: Prisma.SortOrderInput | Prisma.SortOrder
   workspace?: Prisma.WorkspaceOrderByWithRelationInput
   memberships?: Prisma.MembershipOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
@@ -556,6 +575,7 @@ export type OrganizationOrderByWithRelationInput = {
   timeEntries?: Prisma.TimeEntryOrderByRelationAggregateInput
   payrollPeriods?: Prisma.PayrollPeriodOrderByRelationAggregateInput
   payrollRuns?: Prisma.PayrollRunOrderByRelationAggregateInput
+  backups?: Prisma.BackupRecordOrderByRelationAggregateInput
 }
 
 export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -595,6 +615,8 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumOrganizationStatusFilter<"Organization"> | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFilter<"Organization"> | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
   memberships?: Prisma.MembershipListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
@@ -631,6 +653,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   timeEntries?: Prisma.TimeEntryListRelationFilter
   payrollPeriods?: Prisma.PayrollPeriodListRelationFilter
   payrollRuns?: Prisma.PayrollRunListRelationFilter
+  backups?: Prisma.BackupRecordListRelationFilter
 }, "id">
 
 export type OrganizationOrderByWithAggregationInput = {
@@ -667,6 +690,8 @@ export type OrganizationOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  backupFrequency?: Prisma.SortOrder
+  backupLastRunAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OrganizationCountOrderByAggregateInput
   _avg?: Prisma.OrganizationAvgOrderByAggregateInput
   _max?: Prisma.OrganizationMaxOrderByAggregateInput
@@ -711,6 +736,8 @@ export type OrganizationScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumOrganizationStatusWithAggregatesFilter<"Organization"> | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Organization"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Organization"> | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyWithAggregatesFilter<"Organization"> | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
 }
 
 export type OrganizationCreateInput = {
@@ -746,6 +773,8 @@ export type OrganizationCreateInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -782,6 +811,7 @@ export type OrganizationCreateInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateInput = {
@@ -818,6 +848,8 @@ export type OrganizationUncheckedCreateInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -853,6 +885,7 @@ export type OrganizationUncheckedCreateInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUpdateInput = {
@@ -888,6 +921,8 @@ export type OrganizationUpdateInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -924,6 +959,7 @@ export type OrganizationUpdateInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateInput = {
@@ -960,6 +996,8 @@ export type OrganizationUncheckedUpdateInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -995,6 +1033,7 @@ export type OrganizationUncheckedUpdateInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateManyInput = {
@@ -1031,6 +1070,8 @@ export type OrganizationCreateManyInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
 }
 
 export type OrganizationUpdateManyMutationInput = {
@@ -1066,6 +1107,8 @@ export type OrganizationUpdateManyMutationInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type OrganizationUncheckedUpdateManyInput = {
@@ -1102,6 +1145,8 @@ export type OrganizationUncheckedUpdateManyInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type OrganizationListRelationFilter = {
@@ -1148,6 +1193,8 @@ export type OrganizationCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  backupFrequency?: Prisma.SortOrder
+  backupLastRunAt?: Prisma.SortOrder
 }
 
 export type OrganizationAvgOrderByAggregateInput = {
@@ -1190,6 +1237,8 @@ export type OrganizationMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  backupFrequency?: Prisma.SortOrder
+  backupLastRunAt?: Prisma.SortOrder
 }
 
 export type OrganizationMinOrderByAggregateInput = {
@@ -1226,6 +1275,8 @@ export type OrganizationMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  backupFrequency?: Prisma.SortOrder
+  backupLastRunAt?: Prisma.SortOrder
 }
 
 export type OrganizationSumOrderByAggregateInput = {
@@ -1296,6 +1347,24 @@ export type IntFieldUpdateOperationsInput = {
 
 export type EnumOrganizationStatusFieldUpdateOperationsInput = {
   set?: $Enums.OrganizationStatus
+}
+
+export type EnumBackupFrequencyFieldUpdateOperationsInput = {
+  set?: $Enums.BackupFrequency
+}
+
+export type OrganizationCreateNestedOneWithoutBackupsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutBackupsInput, Prisma.OrganizationUncheckedCreateWithoutBackupsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutBackupsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutBackupsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutBackupsInput, Prisma.OrganizationUncheckedCreateWithoutBackupsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutBackupsInput
+  upsert?: Prisma.OrganizationUpsertWithoutBackupsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutBackupsInput, Prisma.OrganizationUpdateWithoutBackupsInput>, Prisma.OrganizationUncheckedUpdateWithoutBackupsInput>
 }
 
 export type OrganizationCreateNestedOneWithoutMembershipsInput = {
@@ -1823,6 +1892,8 @@ export type OrganizationCreateWithoutWorkspaceInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
@@ -1858,6 +1929,7 @@ export type OrganizationCreateWithoutWorkspaceInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutWorkspaceInput = {
@@ -1893,6 +1965,8 @@ export type OrganizationUncheckedCreateWithoutWorkspaceInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1928,6 +2002,7 @@ export type OrganizationUncheckedCreateWithoutWorkspaceInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutWorkspaceInput = {
@@ -1993,9 +2068,11 @@ export type OrganizationScalarWhereInput = {
   status?: Prisma.EnumOrganizationStatusFilter<"Organization"> | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFilter<"Organization"> | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
 }
 
-export type OrganizationCreateWithoutMembershipsInput = {
+export type OrganizationCreateWithoutBackupsInput = {
   id?: string
   name: string
   legalName?: string | null
@@ -2028,7 +2105,10 @@ export type OrganizationCreateWithoutMembershipsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
   documentLinks?: Prisma.DocumentLinkCreateNestedManyWithoutOrganizationInput
@@ -2065,7 +2145,7 @@ export type OrganizationCreateWithoutMembershipsInput = {
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
 }
 
-export type OrganizationUncheckedCreateWithoutMembershipsInput = {
+export type OrganizationUncheckedCreateWithoutBackupsInput = {
   id?: string
   workspaceId: string
   name: string
@@ -2099,6 +2179,9 @@ export type OrganizationUncheckedCreateWithoutMembershipsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
   documentLinks?: Prisma.DocumentLinkUncheckedCreateNestedManyWithoutOrganizationInput
@@ -2133,6 +2216,314 @@ export type OrganizationUncheckedCreateWithoutMembershipsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutBackupsInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutBackupsInput, Prisma.OrganizationUncheckedCreateWithoutBackupsInput>
+}
+
+export type OrganizationUpsertWithoutBackupsInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutBackupsInput, Prisma.OrganizationUncheckedUpdateWithoutBackupsInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutBackupsInput, Prisma.OrganizationUncheckedCreateWithoutBackupsInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutBackupsInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutBackupsInput, Prisma.OrganizationUncheckedUpdateWithoutBackupsInput>
+}
+
+export type OrganizationUpdateWithoutBackupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legalType?: Prisma.StringFieldUpdateOperationsInput | string
+  businessActivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  baseCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  fiscalYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  fiscalYearStartDay?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoicePrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quotePrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceFooter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoicePrimaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceAccentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceTemplate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultPaymentTermsDays?: Prisma.IntFieldUpdateOperationsInput | number
+  setupCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  taxIdentifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatIdentifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tradeLicenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nbrCircle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tinStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
+  documentLinks?: Prisma.DocumentLinkUpdateManyWithoutOrganizationNestedInput
+  accounts?: Prisma.LedgerAccountUpdateManyWithoutOrganizationNestedInput
+  journalEntries?: Prisma.JournalEntryUpdateManyWithoutOrganizationNestedInput
+  journalLines?: Prisma.JournalLineUpdateManyWithoutOrganizationNestedInput
+  accountingPeriods?: Prisma.AccountingPeriodUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutOrganizationNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
+  suppliers?: Prisma.SupplierUpdateManyWithoutOrganizationNestedInput
+  bills?: Prisma.BillUpdateManyWithoutOrganizationNestedInput
+  billPayments?: Prisma.BillPaymentUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUpdateManyWithoutOrganizationNestedInput
+  bankTransactions?: Prisma.BankTransactionUpdateManyWithoutOrganizationNestedInput
+  currencies?: Prisma.CurrencyUpdateManyWithoutOrganizationNestedInput
+  exchangeRates?: Prisma.ExchangeRateUpdateManyWithoutOrganizationNestedInput
+  gatewayCheckouts?: Prisma.GatewayCheckoutUpdateManyWithoutOrganizationNestedInput
+  complianceProfile?: Prisma.ComplianceProfileUpdateOneWithoutOrganizationNestedInput
+  complianceRecords?: Prisma.ComplianceRecordUpdateManyWithoutOrganizationNestedInput
+  taxCodes?: Prisma.TaxCodeUpdateManyWithoutOrganizationNestedInput
+  vatDocuments?: Prisma.VatDocumentUpdateManyWithoutOrganizationNestedInput
+  withholdingEntries?: Prisma.WithholdingEntryUpdateManyWithoutOrganizationNestedInput
+  challans?: Prisma.ChallanUpdateManyWithoutOrganizationNestedInput
+  serviceExportRecords?: Prisma.ServiceExportRecordUpdateManyWithoutOrganizationNestedInput
+  people?: Prisma.PersonUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
+  payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutBackupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legalType?: Prisma.StringFieldUpdateOperationsInput | string
+  businessActivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  baseCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  fiscalYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  fiscalYearStartDay?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoicePrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quotePrefix?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceFooter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoicePrimaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceAccentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceTemplate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultPaymentTermsDays?: Prisma.IntFieldUpdateOperationsInput | number
+  setupCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  taxIdentifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatIdentifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tradeLicenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nbrCircle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tinStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
+  documentLinks?: Prisma.DocumentLinkUncheckedUpdateManyWithoutOrganizationNestedInput
+  accounts?: Prisma.LedgerAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  journalEntries?: Prisma.JournalEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  journalLines?: Prisma.JournalLineUncheckedUpdateManyWithoutOrganizationNestedInput
+  accountingPeriods?: Prisma.AccountingPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+  suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutOrganizationNestedInput
+  bills?: Prisma.BillUncheckedUpdateManyWithoutOrganizationNestedInput
+  billPayments?: Prisma.BillPaymentUncheckedUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  bankTransactions?: Prisma.BankTransactionUncheckedUpdateManyWithoutOrganizationNestedInput
+  currencies?: Prisma.CurrencyUncheckedUpdateManyWithoutOrganizationNestedInput
+  exchangeRates?: Prisma.ExchangeRateUncheckedUpdateManyWithoutOrganizationNestedInput
+  gatewayCheckouts?: Prisma.GatewayCheckoutUncheckedUpdateManyWithoutOrganizationNestedInput
+  complianceProfile?: Prisma.ComplianceProfileUncheckedUpdateOneWithoutOrganizationNestedInput
+  complianceRecords?: Prisma.ComplianceRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+  taxCodes?: Prisma.TaxCodeUncheckedUpdateManyWithoutOrganizationNestedInput
+  vatDocuments?: Prisma.VatDocumentUncheckedUpdateManyWithoutOrganizationNestedInput
+  withholdingEntries?: Prisma.WithholdingEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  challans?: Prisma.ChallanUncheckedUpdateManyWithoutOrganizationNestedInput
+  serviceExportRecords?: Prisma.ServiceExportRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+  people?: Prisma.PersonUncheckedUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutMembershipsInput = {
+  id?: string
+  name: string
+  legalName?: string | null
+  legalType?: string
+  businessActivity?: string | null
+  countryCode?: string
+  baseCurrency?: string
+  timezone?: string
+  fiscalYearStartMonth?: number
+  fiscalYearStartDay?: number
+  address?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  logoUrl?: string | null
+  invoicePrefix?: string | null
+  quotePrefix?: string | null
+  invoiceFooter?: string | null
+  invoicePrimaryColor?: string | null
+  invoiceAccentColor?: string | null
+  invoiceTemplate?: string | null
+  defaultPaymentTermsDays?: number
+  setupCompletedAt?: Date | string | null
+  taxIdentifier?: string | null
+  vatIdentifier?: string | null
+  tradeLicenseNumber?: string | null
+  nbrCircle?: string | null
+  vatStatus?: string | null
+  tinStatus?: string | null
+  status?: $Enums.OrganizationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
+  documentLinks?: Prisma.DocumentLinkCreateNestedManyWithoutOrganizationInput
+  accounts?: Prisma.LedgerAccountCreateNestedManyWithoutOrganizationInput
+  journalEntries?: Prisma.JournalEntryCreateNestedManyWithoutOrganizationInput
+  journalLines?: Prisma.JournalLineCreateNestedManyWithoutOrganizationInput
+  accountingPeriods?: Prisma.AccountingPeriodCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutOrganizationInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
+  suppliers?: Prisma.SupplierCreateNestedManyWithoutOrganizationInput
+  bills?: Prisma.BillCreateNestedManyWithoutOrganizationInput
+  billPayments?: Prisma.BillPaymentCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutOrganizationInput
+  bankTransactions?: Prisma.BankTransactionCreateNestedManyWithoutOrganizationInput
+  currencies?: Prisma.CurrencyCreateNestedManyWithoutOrganizationInput
+  exchangeRates?: Prisma.ExchangeRateCreateNestedManyWithoutOrganizationInput
+  gatewayCheckouts?: Prisma.GatewayCheckoutCreateNestedManyWithoutOrganizationInput
+  complianceProfile?: Prisma.ComplianceProfileCreateNestedOneWithoutOrganizationInput
+  complianceRecords?: Prisma.ComplianceRecordCreateNestedManyWithoutOrganizationInput
+  taxCodes?: Prisma.TaxCodeCreateNestedManyWithoutOrganizationInput
+  vatDocuments?: Prisma.VatDocumentCreateNestedManyWithoutOrganizationInput
+  withholdingEntries?: Prisma.WithholdingEntryCreateNestedManyWithoutOrganizationInput
+  challans?: Prisma.ChallanCreateNestedManyWithoutOrganizationInput
+  serviceExportRecords?: Prisma.ServiceExportRecordCreateNestedManyWithoutOrganizationInput
+  people?: Prisma.PersonCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
+  payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutMembershipsInput = {
+  id?: string
+  workspaceId: string
+  name: string
+  legalName?: string | null
+  legalType?: string
+  businessActivity?: string | null
+  countryCode?: string
+  baseCurrency?: string
+  timezone?: string
+  fiscalYearStartMonth?: number
+  fiscalYearStartDay?: number
+  address?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  logoUrl?: string | null
+  invoicePrefix?: string | null
+  quotePrefix?: string | null
+  invoiceFooter?: string | null
+  invoicePrimaryColor?: string | null
+  invoiceAccentColor?: string | null
+  invoiceTemplate?: string | null
+  defaultPaymentTermsDays?: number
+  setupCompletedAt?: Date | string | null
+  taxIdentifier?: string | null
+  vatIdentifier?: string | null
+  tradeLicenseNumber?: string | null
+  nbrCircle?: string | null
+  vatStatus?: string | null
+  tinStatus?: string | null
+  status?: $Enums.OrganizationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
+  documentLinks?: Prisma.DocumentLinkUncheckedCreateNestedManyWithoutOrganizationInput
+  accounts?: Prisma.LedgerAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  journalEntries?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  journalLines?: Prisma.JournalLineUncheckedCreateNestedManyWithoutOrganizationInput
+  accountingPeriods?: Prisma.AccountingPeriodUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutOrganizationInput
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+  suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutOrganizationInput
+  bills?: Prisma.BillUncheckedCreateNestedManyWithoutOrganizationInput
+  billPayments?: Prisma.BillPaymentUncheckedCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  bankTransactions?: Prisma.BankTransactionUncheckedCreateNestedManyWithoutOrganizationInput
+  currencies?: Prisma.CurrencyUncheckedCreateNestedManyWithoutOrganizationInput
+  exchangeRates?: Prisma.ExchangeRateUncheckedCreateNestedManyWithoutOrganizationInput
+  gatewayCheckouts?: Prisma.GatewayCheckoutUncheckedCreateNestedManyWithoutOrganizationInput
+  complianceProfile?: Prisma.ComplianceProfileUncheckedCreateNestedOneWithoutOrganizationInput
+  complianceRecords?: Prisma.ComplianceRecordUncheckedCreateNestedManyWithoutOrganizationInput
+  taxCodes?: Prisma.TaxCodeUncheckedCreateNestedManyWithoutOrganizationInput
+  vatDocuments?: Prisma.VatDocumentUncheckedCreateNestedManyWithoutOrganizationInput
+  withholdingEntries?: Prisma.WithholdingEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  challans?: Prisma.ChallanUncheckedCreateNestedManyWithoutOrganizationInput
+  serviceExportRecords?: Prisma.ServiceExportRecordUncheckedCreateNestedManyWithoutOrganizationInput
+  people?: Prisma.PersonUncheckedCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutMembershipsInput = {
@@ -2184,6 +2575,8 @@ export type OrganizationUpdateWithoutMembershipsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
@@ -2219,6 +2612,7 @@ export type OrganizationUpdateWithoutMembershipsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutMembershipsInput = {
@@ -2255,6 +2649,8 @@ export type OrganizationUncheckedUpdateWithoutMembershipsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
   documentLinks?: Prisma.DocumentLinkUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -2289,6 +2685,7 @@ export type OrganizationUncheckedUpdateWithoutMembershipsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAuditLogsInput = {
@@ -2324,6 +2721,8 @@ export type OrganizationCreateWithoutAuditLogsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
@@ -2359,6 +2758,7 @@ export type OrganizationCreateWithoutAuditLogsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
@@ -2395,6 +2795,8 @@ export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
   documentLinks?: Prisma.DocumentLinkUncheckedCreateNestedManyWithoutOrganizationInput
@@ -2429,6 +2831,7 @@ export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAuditLogsInput = {
@@ -2480,6 +2883,8 @@ export type OrganizationUpdateWithoutAuditLogsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
@@ -2515,6 +2920,7 @@ export type OrganizationUpdateWithoutAuditLogsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
@@ -2551,6 +2957,8 @@ export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
   documentLinks?: Prisma.DocumentLinkUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -2585,6 +2993,7 @@ export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDocumentsInput = {
@@ -2620,6 +3029,8 @@ export type OrganizationCreateWithoutDocumentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -2655,6 +3066,7 @@ export type OrganizationCreateWithoutDocumentsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDocumentsInput = {
@@ -2691,6 +3103,8 @@ export type OrganizationUncheckedCreateWithoutDocumentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documentLinks?: Prisma.DocumentLinkUncheckedCreateNestedManyWithoutOrganizationInput
@@ -2725,6 +3139,7 @@ export type OrganizationUncheckedCreateWithoutDocumentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDocumentsInput = {
@@ -2776,6 +3191,8 @@ export type OrganizationUpdateWithoutDocumentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -2811,6 +3228,7 @@ export type OrganizationUpdateWithoutDocumentsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
@@ -2847,6 +3265,8 @@ export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documentLinks?: Prisma.DocumentLinkUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -2881,6 +3301,7 @@ export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDocumentLinksInput = {
@@ -2916,6 +3337,8 @@ export type OrganizationCreateWithoutDocumentLinksInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -2951,6 +3374,7 @@ export type OrganizationCreateWithoutDocumentLinksInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDocumentLinksInput = {
@@ -2987,6 +3411,8 @@ export type OrganizationUncheckedCreateWithoutDocumentLinksInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3021,6 +3447,7 @@ export type OrganizationUncheckedCreateWithoutDocumentLinksInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDocumentLinksInput = {
@@ -3072,6 +3499,8 @@ export type OrganizationUpdateWithoutDocumentLinksInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -3107,6 +3536,7 @@ export type OrganizationUpdateWithoutDocumentLinksInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDocumentLinksInput = {
@@ -3143,6 +3573,8 @@ export type OrganizationUncheckedUpdateWithoutDocumentLinksInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -3177,6 +3609,7 @@ export type OrganizationUncheckedUpdateWithoutDocumentLinksInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAccountsInput = {
@@ -3212,6 +3645,8 @@ export type OrganizationCreateWithoutAccountsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -3247,6 +3682,7 @@ export type OrganizationCreateWithoutAccountsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAccountsInput = {
@@ -3283,6 +3719,8 @@ export type OrganizationUncheckedCreateWithoutAccountsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3317,6 +3755,7 @@ export type OrganizationUncheckedCreateWithoutAccountsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAccountsInput = {
@@ -3368,6 +3807,8 @@ export type OrganizationUpdateWithoutAccountsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -3403,6 +3844,7 @@ export type OrganizationUpdateWithoutAccountsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAccountsInput = {
@@ -3439,6 +3881,8 @@ export type OrganizationUncheckedUpdateWithoutAccountsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -3473,6 +3917,7 @@ export type OrganizationUncheckedUpdateWithoutAccountsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAccountingPeriodsInput = {
@@ -3508,6 +3953,8 @@ export type OrganizationCreateWithoutAccountingPeriodsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -3543,6 +3990,7 @@ export type OrganizationCreateWithoutAccountingPeriodsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAccountingPeriodsInput = {
@@ -3579,6 +4027,8 @@ export type OrganizationUncheckedCreateWithoutAccountingPeriodsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3613,6 +4063,7 @@ export type OrganizationUncheckedCreateWithoutAccountingPeriodsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAccountingPeriodsInput = {
@@ -3664,6 +4115,8 @@ export type OrganizationUpdateWithoutAccountingPeriodsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -3699,6 +4152,7 @@ export type OrganizationUpdateWithoutAccountingPeriodsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAccountingPeriodsInput = {
@@ -3735,6 +4189,8 @@ export type OrganizationUncheckedUpdateWithoutAccountingPeriodsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -3769,6 +4225,7 @@ export type OrganizationUncheckedUpdateWithoutAccountingPeriodsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutJournalEntriesInput = {
@@ -3804,6 +4261,8 @@ export type OrganizationCreateWithoutJournalEntriesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -3839,6 +4298,7 @@ export type OrganizationCreateWithoutJournalEntriesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutJournalEntriesInput = {
@@ -3875,6 +4335,8 @@ export type OrganizationUncheckedCreateWithoutJournalEntriesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3909,6 +4371,7 @@ export type OrganizationUncheckedCreateWithoutJournalEntriesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutJournalEntriesInput = {
@@ -3960,6 +4423,8 @@ export type OrganizationUpdateWithoutJournalEntriesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -3995,6 +4460,7 @@ export type OrganizationUpdateWithoutJournalEntriesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutJournalEntriesInput = {
@@ -4031,6 +4497,8 @@ export type OrganizationUncheckedUpdateWithoutJournalEntriesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4065,6 +4533,7 @@ export type OrganizationUncheckedUpdateWithoutJournalEntriesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutJournalLinesInput = {
@@ -4100,6 +4569,8 @@ export type OrganizationCreateWithoutJournalLinesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -4135,6 +4606,7 @@ export type OrganizationCreateWithoutJournalLinesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutJournalLinesInput = {
@@ -4171,6 +4643,8 @@ export type OrganizationUncheckedCreateWithoutJournalLinesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -4205,6 +4679,7 @@ export type OrganizationUncheckedCreateWithoutJournalLinesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutJournalLinesInput = {
@@ -4256,6 +4731,8 @@ export type OrganizationUpdateWithoutJournalLinesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -4291,6 +4768,7 @@ export type OrganizationUpdateWithoutJournalLinesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutJournalLinesInput = {
@@ -4327,6 +4805,8 @@ export type OrganizationUncheckedUpdateWithoutJournalLinesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4361,6 +4841,7 @@ export type OrganizationUncheckedUpdateWithoutJournalLinesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCustomersInput = {
@@ -4396,6 +4877,8 @@ export type OrganizationCreateWithoutCustomersInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -4431,6 +4914,7 @@ export type OrganizationCreateWithoutCustomersInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCustomersInput = {
@@ -4467,6 +4951,8 @@ export type OrganizationUncheckedCreateWithoutCustomersInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -4501,6 +4987,7 @@ export type OrganizationUncheckedCreateWithoutCustomersInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCustomersInput = {
@@ -4552,6 +5039,8 @@ export type OrganizationUpdateWithoutCustomersInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -4587,6 +5076,7 @@ export type OrganizationUpdateWithoutCustomersInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCustomersInput = {
@@ -4623,6 +5113,8 @@ export type OrganizationUncheckedUpdateWithoutCustomersInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4657,6 +5149,7 @@ export type OrganizationUncheckedUpdateWithoutCustomersInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutInvoicesInput = {
@@ -4692,6 +5185,8 @@ export type OrganizationCreateWithoutInvoicesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -4727,6 +5222,7 @@ export type OrganizationCreateWithoutInvoicesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutInvoicesInput = {
@@ -4763,6 +5259,8 @@ export type OrganizationUncheckedCreateWithoutInvoicesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -4797,6 +5295,7 @@ export type OrganizationUncheckedCreateWithoutInvoicesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutInvoicesInput = {
@@ -4848,6 +5347,8 @@ export type OrganizationUpdateWithoutInvoicesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -4883,6 +5384,7 @@ export type OrganizationUpdateWithoutInvoicesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
@@ -4919,6 +5421,8 @@ export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4953,6 +5457,7 @@ export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPaymentsInput = {
@@ -4988,6 +5493,8 @@ export type OrganizationCreateWithoutPaymentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -5023,6 +5530,7 @@ export type OrganizationCreateWithoutPaymentsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPaymentsInput = {
@@ -5059,6 +5567,8 @@ export type OrganizationUncheckedCreateWithoutPaymentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -5093,6 +5603,7 @@ export type OrganizationUncheckedCreateWithoutPaymentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPaymentsInput = {
@@ -5144,6 +5655,8 @@ export type OrganizationUpdateWithoutPaymentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -5179,6 +5692,7 @@ export type OrganizationUpdateWithoutPaymentsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
@@ -5215,6 +5729,8 @@ export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -5249,6 +5765,7 @@ export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutExpensesInput = {
@@ -5284,6 +5801,8 @@ export type OrganizationCreateWithoutExpensesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -5319,6 +5838,7 @@ export type OrganizationCreateWithoutExpensesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutExpensesInput = {
@@ -5355,6 +5875,8 @@ export type OrganizationUncheckedCreateWithoutExpensesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -5389,6 +5911,7 @@ export type OrganizationUncheckedCreateWithoutExpensesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutExpensesInput = {
@@ -5440,6 +5963,8 @@ export type OrganizationUpdateWithoutExpensesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -5475,6 +6000,7 @@ export type OrganizationUpdateWithoutExpensesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutExpensesInput = {
@@ -5511,6 +6037,8 @@ export type OrganizationUncheckedUpdateWithoutExpensesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -5545,6 +6073,7 @@ export type OrganizationUncheckedUpdateWithoutExpensesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutQuotesInput = {
@@ -5580,6 +6109,8 @@ export type OrganizationCreateWithoutQuotesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -5615,6 +6146,7 @@ export type OrganizationCreateWithoutQuotesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutQuotesInput = {
@@ -5651,6 +6183,8 @@ export type OrganizationUncheckedCreateWithoutQuotesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -5685,6 +6219,7 @@ export type OrganizationUncheckedCreateWithoutQuotesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutQuotesInput = {
@@ -5736,6 +6271,8 @@ export type OrganizationUpdateWithoutQuotesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -5771,6 +6308,7 @@ export type OrganizationUpdateWithoutQuotesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutQuotesInput = {
@@ -5807,6 +6345,8 @@ export type OrganizationUncheckedUpdateWithoutQuotesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -5841,6 +6381,7 @@ export type OrganizationUncheckedUpdateWithoutQuotesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutContractsInput = {
@@ -5876,6 +6417,8 @@ export type OrganizationCreateWithoutContractsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -5911,6 +6454,7 @@ export type OrganizationCreateWithoutContractsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutContractsInput = {
@@ -5947,6 +6491,8 @@ export type OrganizationUncheckedCreateWithoutContractsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -5981,6 +6527,7 @@ export type OrganizationUncheckedCreateWithoutContractsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutContractsInput = {
@@ -6032,6 +6579,8 @@ export type OrganizationUpdateWithoutContractsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -6067,6 +6616,7 @@ export type OrganizationUpdateWithoutContractsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutContractsInput = {
@@ -6103,6 +6653,8 @@ export type OrganizationUncheckedUpdateWithoutContractsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -6137,6 +6689,7 @@ export type OrganizationUncheckedUpdateWithoutContractsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutProjectsInput = {
@@ -6172,6 +6725,8 @@ export type OrganizationCreateWithoutProjectsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -6207,6 +6762,7 @@ export type OrganizationCreateWithoutProjectsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutProjectsInput = {
@@ -6243,6 +6799,8 @@ export type OrganizationUncheckedCreateWithoutProjectsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -6277,6 +6835,7 @@ export type OrganizationUncheckedCreateWithoutProjectsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutProjectsInput = {
@@ -6328,6 +6887,8 @@ export type OrganizationUpdateWithoutProjectsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -6363,6 +6924,7 @@ export type OrganizationUpdateWithoutProjectsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutProjectsInput = {
@@ -6399,6 +6961,8 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -6433,6 +6997,7 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutSuppliersInput = {
@@ -6468,6 +7033,8 @@ export type OrganizationCreateWithoutSuppliersInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -6503,6 +7070,7 @@ export type OrganizationCreateWithoutSuppliersInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutSuppliersInput = {
@@ -6539,6 +7107,8 @@ export type OrganizationUncheckedCreateWithoutSuppliersInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -6573,6 +7143,7 @@ export type OrganizationUncheckedCreateWithoutSuppliersInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutSuppliersInput = {
@@ -6624,6 +7195,8 @@ export type OrganizationUpdateWithoutSuppliersInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -6659,6 +7232,7 @@ export type OrganizationUpdateWithoutSuppliersInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutSuppliersInput = {
@@ -6695,6 +7269,8 @@ export type OrganizationUncheckedUpdateWithoutSuppliersInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -6729,6 +7305,7 @@ export type OrganizationUncheckedUpdateWithoutSuppliersInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutBillsInput = {
@@ -6764,6 +7341,8 @@ export type OrganizationCreateWithoutBillsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -6799,6 +7378,7 @@ export type OrganizationCreateWithoutBillsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBillsInput = {
@@ -6835,6 +7415,8 @@ export type OrganizationUncheckedCreateWithoutBillsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -6869,6 +7451,7 @@ export type OrganizationUncheckedCreateWithoutBillsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBillsInput = {
@@ -6920,6 +7503,8 @@ export type OrganizationUpdateWithoutBillsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -6955,6 +7540,7 @@ export type OrganizationUpdateWithoutBillsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBillsInput = {
@@ -6991,6 +7577,8 @@ export type OrganizationUncheckedUpdateWithoutBillsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7025,6 +7613,7 @@ export type OrganizationUncheckedUpdateWithoutBillsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutBillPaymentsInput = {
@@ -7060,6 +7649,8 @@ export type OrganizationCreateWithoutBillPaymentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -7095,6 +7686,7 @@ export type OrganizationCreateWithoutBillPaymentsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBillPaymentsInput = {
@@ -7131,6 +7723,8 @@ export type OrganizationUncheckedCreateWithoutBillPaymentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -7165,6 +7759,7 @@ export type OrganizationUncheckedCreateWithoutBillPaymentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBillPaymentsInput = {
@@ -7216,6 +7811,8 @@ export type OrganizationUpdateWithoutBillPaymentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -7251,6 +7848,7 @@ export type OrganizationUpdateWithoutBillPaymentsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBillPaymentsInput = {
@@ -7287,6 +7885,8 @@ export type OrganizationUncheckedUpdateWithoutBillPaymentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7321,6 +7921,7 @@ export type OrganizationUncheckedUpdateWithoutBillPaymentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutBankAccountsInput = {
@@ -7356,6 +7957,8 @@ export type OrganizationCreateWithoutBankAccountsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -7391,6 +7994,7 @@ export type OrganizationCreateWithoutBankAccountsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBankAccountsInput = {
@@ -7427,6 +8031,8 @@ export type OrganizationUncheckedCreateWithoutBankAccountsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -7461,6 +8067,7 @@ export type OrganizationUncheckedCreateWithoutBankAccountsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBankAccountsInput = {
@@ -7512,6 +8119,8 @@ export type OrganizationUpdateWithoutBankAccountsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -7547,6 +8156,7 @@ export type OrganizationUpdateWithoutBankAccountsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBankAccountsInput = {
@@ -7583,6 +8193,8 @@ export type OrganizationUncheckedUpdateWithoutBankAccountsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7617,6 +8229,7 @@ export type OrganizationUncheckedUpdateWithoutBankAccountsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutBankTransactionsInput = {
@@ -7652,6 +8265,8 @@ export type OrganizationCreateWithoutBankTransactionsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -7687,6 +8302,7 @@ export type OrganizationCreateWithoutBankTransactionsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBankTransactionsInput = {
@@ -7723,6 +8339,8 @@ export type OrganizationUncheckedCreateWithoutBankTransactionsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -7757,6 +8375,7 @@ export type OrganizationUncheckedCreateWithoutBankTransactionsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBankTransactionsInput = {
@@ -7808,6 +8427,8 @@ export type OrganizationUpdateWithoutBankTransactionsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -7843,6 +8464,7 @@ export type OrganizationUpdateWithoutBankTransactionsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBankTransactionsInput = {
@@ -7879,6 +8501,8 @@ export type OrganizationUncheckedUpdateWithoutBankTransactionsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7913,6 +8537,7 @@ export type OrganizationUncheckedUpdateWithoutBankTransactionsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCurrenciesInput = {
@@ -7948,6 +8573,8 @@ export type OrganizationCreateWithoutCurrenciesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -7983,6 +8610,7 @@ export type OrganizationCreateWithoutCurrenciesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCurrenciesInput = {
@@ -8019,6 +8647,8 @@ export type OrganizationUncheckedCreateWithoutCurrenciesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -8053,6 +8683,7 @@ export type OrganizationUncheckedCreateWithoutCurrenciesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCurrenciesInput = {
@@ -8104,6 +8735,8 @@ export type OrganizationUpdateWithoutCurrenciesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -8139,6 +8772,7 @@ export type OrganizationUpdateWithoutCurrenciesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCurrenciesInput = {
@@ -8175,6 +8809,8 @@ export type OrganizationUncheckedUpdateWithoutCurrenciesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -8209,6 +8845,7 @@ export type OrganizationUncheckedUpdateWithoutCurrenciesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutExchangeRatesInput = {
@@ -8244,6 +8881,8 @@ export type OrganizationCreateWithoutExchangeRatesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -8279,6 +8918,7 @@ export type OrganizationCreateWithoutExchangeRatesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutExchangeRatesInput = {
@@ -8315,6 +8955,8 @@ export type OrganizationUncheckedCreateWithoutExchangeRatesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -8349,6 +8991,7 @@ export type OrganizationUncheckedCreateWithoutExchangeRatesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutExchangeRatesInput = {
@@ -8400,6 +9043,8 @@ export type OrganizationUpdateWithoutExchangeRatesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -8435,6 +9080,7 @@ export type OrganizationUpdateWithoutExchangeRatesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutExchangeRatesInput = {
@@ -8471,6 +9117,8 @@ export type OrganizationUncheckedUpdateWithoutExchangeRatesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -8505,6 +9153,7 @@ export type OrganizationUncheckedUpdateWithoutExchangeRatesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutGatewayCheckoutsInput = {
@@ -8540,6 +9189,8 @@ export type OrganizationCreateWithoutGatewayCheckoutsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -8575,6 +9226,7 @@ export type OrganizationCreateWithoutGatewayCheckoutsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutGatewayCheckoutsInput = {
@@ -8611,6 +9263,8 @@ export type OrganizationUncheckedCreateWithoutGatewayCheckoutsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -8645,6 +9299,7 @@ export type OrganizationUncheckedCreateWithoutGatewayCheckoutsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutGatewayCheckoutsInput = {
@@ -8696,6 +9351,8 @@ export type OrganizationUpdateWithoutGatewayCheckoutsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -8731,6 +9388,7 @@ export type OrganizationUpdateWithoutGatewayCheckoutsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutGatewayCheckoutsInput = {
@@ -8767,6 +9425,8 @@ export type OrganizationUncheckedUpdateWithoutGatewayCheckoutsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -8801,6 +9461,7 @@ export type OrganizationUncheckedUpdateWithoutGatewayCheckoutsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutComplianceProfileInput = {
@@ -8836,6 +9497,8 @@ export type OrganizationCreateWithoutComplianceProfileInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -8871,6 +9534,7 @@ export type OrganizationCreateWithoutComplianceProfileInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutComplianceProfileInput = {
@@ -8907,6 +9571,8 @@ export type OrganizationUncheckedCreateWithoutComplianceProfileInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -8941,6 +9607,7 @@ export type OrganizationUncheckedCreateWithoutComplianceProfileInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutComplianceProfileInput = {
@@ -8992,6 +9659,8 @@ export type OrganizationUpdateWithoutComplianceProfileInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -9027,6 +9696,7 @@ export type OrganizationUpdateWithoutComplianceProfileInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutComplianceProfileInput = {
@@ -9063,6 +9733,8 @@ export type OrganizationUncheckedUpdateWithoutComplianceProfileInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -9097,6 +9769,7 @@ export type OrganizationUncheckedUpdateWithoutComplianceProfileInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutComplianceRecordsInput = {
@@ -9132,6 +9805,8 @@ export type OrganizationCreateWithoutComplianceRecordsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -9167,6 +9842,7 @@ export type OrganizationCreateWithoutComplianceRecordsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutComplianceRecordsInput = {
@@ -9203,6 +9879,8 @@ export type OrganizationUncheckedCreateWithoutComplianceRecordsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -9237,6 +9915,7 @@ export type OrganizationUncheckedCreateWithoutComplianceRecordsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutComplianceRecordsInput = {
@@ -9288,6 +9967,8 @@ export type OrganizationUpdateWithoutComplianceRecordsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -9323,6 +10004,7 @@ export type OrganizationUpdateWithoutComplianceRecordsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutComplianceRecordsInput = {
@@ -9359,6 +10041,8 @@ export type OrganizationUncheckedUpdateWithoutComplianceRecordsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -9393,6 +10077,7 @@ export type OrganizationUncheckedUpdateWithoutComplianceRecordsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTaxCodesInput = {
@@ -9428,6 +10113,8 @@ export type OrganizationCreateWithoutTaxCodesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -9463,6 +10150,7 @@ export type OrganizationCreateWithoutTaxCodesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTaxCodesInput = {
@@ -9499,6 +10187,8 @@ export type OrganizationUncheckedCreateWithoutTaxCodesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -9533,6 +10223,7 @@ export type OrganizationUncheckedCreateWithoutTaxCodesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTaxCodesInput = {
@@ -9584,6 +10275,8 @@ export type OrganizationUpdateWithoutTaxCodesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -9619,6 +10312,7 @@ export type OrganizationUpdateWithoutTaxCodesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTaxCodesInput = {
@@ -9655,6 +10349,8 @@ export type OrganizationUncheckedUpdateWithoutTaxCodesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -9689,6 +10385,7 @@ export type OrganizationUncheckedUpdateWithoutTaxCodesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutVatDocumentsInput = {
@@ -9724,6 +10421,8 @@ export type OrganizationCreateWithoutVatDocumentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -9759,6 +10458,7 @@ export type OrganizationCreateWithoutVatDocumentsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutVatDocumentsInput = {
@@ -9795,6 +10495,8 @@ export type OrganizationUncheckedCreateWithoutVatDocumentsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -9829,6 +10531,7 @@ export type OrganizationUncheckedCreateWithoutVatDocumentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutVatDocumentsInput = {
@@ -9880,6 +10583,8 @@ export type OrganizationUpdateWithoutVatDocumentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -9915,6 +10620,7 @@ export type OrganizationUpdateWithoutVatDocumentsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutVatDocumentsInput = {
@@ -9951,6 +10657,8 @@ export type OrganizationUncheckedUpdateWithoutVatDocumentsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -9985,6 +10693,7 @@ export type OrganizationUncheckedUpdateWithoutVatDocumentsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutWithholdingEntriesInput = {
@@ -10020,6 +10729,8 @@ export type OrganizationCreateWithoutWithholdingEntriesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -10055,6 +10766,7 @@ export type OrganizationCreateWithoutWithholdingEntriesInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutWithholdingEntriesInput = {
@@ -10091,6 +10803,8 @@ export type OrganizationUncheckedCreateWithoutWithholdingEntriesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -10125,6 +10839,7 @@ export type OrganizationUncheckedCreateWithoutWithholdingEntriesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutWithholdingEntriesInput = {
@@ -10176,6 +10891,8 @@ export type OrganizationUpdateWithoutWithholdingEntriesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -10211,6 +10928,7 @@ export type OrganizationUpdateWithoutWithholdingEntriesInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutWithholdingEntriesInput = {
@@ -10247,6 +10965,8 @@ export type OrganizationUncheckedUpdateWithoutWithholdingEntriesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10281,6 +11001,7 @@ export type OrganizationUncheckedUpdateWithoutWithholdingEntriesInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutChallansInput = {
@@ -10316,6 +11037,8 @@ export type OrganizationCreateWithoutChallansInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -10351,6 +11074,7 @@ export type OrganizationCreateWithoutChallansInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutChallansInput = {
@@ -10387,6 +11111,8 @@ export type OrganizationUncheckedCreateWithoutChallansInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -10421,6 +11147,7 @@ export type OrganizationUncheckedCreateWithoutChallansInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutChallansInput = {
@@ -10472,6 +11199,8 @@ export type OrganizationUpdateWithoutChallansInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -10507,6 +11236,7 @@ export type OrganizationUpdateWithoutChallansInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutChallansInput = {
@@ -10543,6 +11273,8 @@ export type OrganizationUncheckedUpdateWithoutChallansInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10577,6 +11309,7 @@ export type OrganizationUncheckedUpdateWithoutChallansInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutServiceExportRecordsInput = {
@@ -10612,6 +11345,8 @@ export type OrganizationCreateWithoutServiceExportRecordsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -10647,6 +11382,7 @@ export type OrganizationCreateWithoutServiceExportRecordsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutServiceExportRecordsInput = {
@@ -10683,6 +11419,8 @@ export type OrganizationUncheckedCreateWithoutServiceExportRecordsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -10717,6 +11455,7 @@ export type OrganizationUncheckedCreateWithoutServiceExportRecordsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutServiceExportRecordsInput = {
@@ -10768,6 +11507,8 @@ export type OrganizationUpdateWithoutServiceExportRecordsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -10803,6 +11544,7 @@ export type OrganizationUpdateWithoutServiceExportRecordsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutServiceExportRecordsInput = {
@@ -10839,6 +11581,8 @@ export type OrganizationUncheckedUpdateWithoutServiceExportRecordsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10873,6 +11617,7 @@ export type OrganizationUncheckedUpdateWithoutServiceExportRecordsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPeopleInput = {
@@ -10908,6 +11653,8 @@ export type OrganizationCreateWithoutPeopleInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -10943,6 +11690,7 @@ export type OrganizationCreateWithoutPeopleInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPeopleInput = {
@@ -10979,6 +11727,8 @@ export type OrganizationUncheckedCreateWithoutPeopleInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -11013,6 +11763,7 @@ export type OrganizationUncheckedCreateWithoutPeopleInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPeopleInput = {
@@ -11064,6 +11815,8 @@ export type OrganizationUpdateWithoutPeopleInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -11099,6 +11852,7 @@ export type OrganizationUpdateWithoutPeopleInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPeopleInput = {
@@ -11135,6 +11889,8 @@ export type OrganizationUncheckedUpdateWithoutPeopleInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -11169,6 +11925,7 @@ export type OrganizationUncheckedUpdateWithoutPeopleInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAssetsInput = {
@@ -11204,6 +11961,8 @@ export type OrganizationCreateWithoutAssetsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -11239,6 +11998,7 @@ export type OrganizationCreateWithoutAssetsInput = {
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAssetsInput = {
@@ -11275,6 +12035,8 @@ export type OrganizationUncheckedCreateWithoutAssetsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -11309,6 +12071,7 @@ export type OrganizationUncheckedCreateWithoutAssetsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAssetsInput = {
@@ -11360,6 +12123,8 @@ export type OrganizationUpdateWithoutAssetsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -11395,6 +12160,7 @@ export type OrganizationUpdateWithoutAssetsInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAssetsInput = {
@@ -11431,6 +12197,8 @@ export type OrganizationUncheckedUpdateWithoutAssetsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -11465,6 +12233,7 @@ export type OrganizationUncheckedUpdateWithoutAssetsInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTimeEntriesInput = {
@@ -11500,6 +12269,8 @@ export type OrganizationCreateWithoutTimeEntriesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -11535,6 +12306,7 @@ export type OrganizationCreateWithoutTimeEntriesInput = {
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTimeEntriesInput = {
@@ -11571,6 +12343,8 @@ export type OrganizationUncheckedCreateWithoutTimeEntriesInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -11605,6 +12379,7 @@ export type OrganizationUncheckedCreateWithoutTimeEntriesInput = {
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTimeEntriesInput = {
@@ -11656,6 +12431,8 @@ export type OrganizationUpdateWithoutTimeEntriesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -11691,6 +12468,7 @@ export type OrganizationUpdateWithoutTimeEntriesInput = {
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTimeEntriesInput = {
@@ -11727,6 +12505,8 @@ export type OrganizationUncheckedUpdateWithoutTimeEntriesInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -11761,6 +12541,7 @@ export type OrganizationUncheckedUpdateWithoutTimeEntriesInput = {
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPayrollPeriodsInput = {
@@ -11796,6 +12577,8 @@ export type OrganizationCreateWithoutPayrollPeriodsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -11831,6 +12614,7 @@ export type OrganizationCreateWithoutPayrollPeriodsInput = {
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPayrollPeriodsInput = {
@@ -11867,6 +12651,8 @@ export type OrganizationUncheckedCreateWithoutPayrollPeriodsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -11901,6 +12687,7 @@ export type OrganizationUncheckedCreateWithoutPayrollPeriodsInput = {
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPayrollPeriodsInput = {
@@ -11952,6 +12739,8 @@ export type OrganizationUpdateWithoutPayrollPeriodsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -11987,6 +12776,7 @@ export type OrganizationUpdateWithoutPayrollPeriodsInput = {
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPayrollPeriodsInput = {
@@ -12023,6 +12813,8 @@ export type OrganizationUncheckedUpdateWithoutPayrollPeriodsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -12057,6 +12849,7 @@ export type OrganizationUncheckedUpdateWithoutPayrollPeriodsInput = {
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPayrollRunsInput = {
@@ -12092,6 +12885,8 @@ export type OrganizationCreateWithoutPayrollRunsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutOrganizationsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
@@ -12127,6 +12922,7 @@ export type OrganizationCreateWithoutPayrollRunsInput = {
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPayrollRunsInput = {
@@ -12163,6 +12959,8 @@ export type OrganizationUncheckedCreateWithoutPayrollRunsInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutOrganizationInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
@@ -12197,6 +12995,7 @@ export type OrganizationUncheckedCreateWithoutPayrollRunsInput = {
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedCreateNestedManyWithoutOrganizationInput
+  backups?: Prisma.BackupRecordUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPayrollRunsInput = {
@@ -12248,6 +13047,8 @@ export type OrganizationUpdateWithoutPayrollRunsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutOrganizationsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
@@ -12283,6 +13084,7 @@ export type OrganizationUpdateWithoutPayrollRunsInput = {
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPayrollRunsInput = {
@@ -12319,6 +13121,8 @@ export type OrganizationUncheckedUpdateWithoutPayrollRunsInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -12353,6 +13157,7 @@ export type OrganizationUncheckedUpdateWithoutPayrollRunsInput = {
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateManyWorkspaceInput = {
@@ -12388,6 +13193,8 @@ export type OrganizationCreateManyWorkspaceInput = {
   status?: $Enums.OrganizationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  backupFrequency?: $Enums.BackupFrequency
+  backupLastRunAt?: Date | string | null
 }
 
 export type OrganizationUpdateWithoutWorkspaceInput = {
@@ -12423,6 +13230,8 @@ export type OrganizationUpdateWithoutWorkspaceInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
@@ -12458,6 +13267,7 @@ export type OrganizationUpdateWithoutWorkspaceInput = {
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutWorkspaceInput = {
@@ -12493,6 +13303,8 @@ export type OrganizationUncheckedUpdateWithoutWorkspaceInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -12528,6 +13340,7 @@ export type OrganizationUncheckedUpdateWithoutWorkspaceInput = {
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollPeriods?: Prisma.PayrollPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
   payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  backups?: Prisma.BackupRecordUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -12563,6 +13376,8 @@ export type OrganizationUncheckedUpdateManyWithoutWorkspaceInput = {
   status?: Prisma.EnumOrganizationStatusFieldUpdateOperationsInput | $Enums.OrganizationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backupFrequency?: Prisma.EnumBackupFrequencyFieldUpdateOperationsInput | $Enums.BackupFrequency
+  backupLastRunAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -12605,6 +13420,7 @@ export type OrganizationCountOutputType = {
   timeEntries: number
   payrollPeriods: number
   payrollRuns: number
+  backups: number
 }
 
 export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -12642,6 +13458,7 @@ export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   timeEntries?: boolean | OrganizationCountOutputTypeCountTimeEntriesArgs
   payrollPeriods?: boolean | OrganizationCountOutputTypeCountPayrollPeriodsArgs
   payrollRuns?: boolean | OrganizationCountOutputTypeCountPayrollRunsArgs
+  backups?: boolean | OrganizationCountOutputTypeCountBackupsArgs
 }
 
 /**
@@ -12892,6 +13709,13 @@ export type OrganizationCountOutputTypeCountPayrollRunsArgs<ExtArgs extends runt
   where?: Prisma.PayrollRunWhereInput
 }
 
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountBackupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BackupRecordWhereInput
+}
+
 
 export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -12927,6 +13751,8 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  backupFrequency?: boolean
+  backupLastRunAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
   memberships?: boolean | Prisma.Organization$membershipsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Organization$auditLogsArgs<ExtArgs>
@@ -12963,6 +13789,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   timeEntries?: boolean | Prisma.Organization$timeEntriesArgs<ExtArgs>
   payrollPeriods?: boolean | Prisma.Organization$payrollPeriodsArgs<ExtArgs>
   payrollRuns?: boolean | Prisma.Organization$payrollRunsArgs<ExtArgs>
+  backups?: boolean | Prisma.Organization$backupsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
 
@@ -13000,6 +13827,8 @@ export type OrganizationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  backupFrequency?: boolean
+  backupLastRunAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
 
@@ -13037,6 +13866,8 @@ export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  backupFrequency?: boolean
+  backupLastRunAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
 
@@ -13074,9 +13905,11 @@ export type OrganizationSelectScalar = {
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  backupFrequency?: boolean
+  backupLastRunAt?: boolean
 }
 
-export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workspaceId" | "name" | "legalName" | "legalType" | "businessActivity" | "countryCode" | "baseCurrency" | "timezone" | "fiscalYearStartMonth" | "fiscalYearStartDay" | "address" | "phone" | "email" | "website" | "logoUrl" | "invoicePrefix" | "quotePrefix" | "invoiceFooter" | "invoicePrimaryColor" | "invoiceAccentColor" | "invoiceTemplate" | "defaultPaymentTermsDays" | "setupCompletedAt" | "taxIdentifier" | "vatIdentifier" | "tradeLicenseNumber" | "nbrCircle" | "vatStatus" | "tinStatus" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
+export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workspaceId" | "name" | "legalName" | "legalType" | "businessActivity" | "countryCode" | "baseCurrency" | "timezone" | "fiscalYearStartMonth" | "fiscalYearStartDay" | "address" | "phone" | "email" | "website" | "logoUrl" | "invoicePrefix" | "quotePrefix" | "invoiceFooter" | "invoicePrimaryColor" | "invoiceAccentColor" | "invoiceTemplate" | "defaultPaymentTermsDays" | "setupCompletedAt" | "taxIdentifier" | "vatIdentifier" | "tradeLicenseNumber" | "nbrCircle" | "vatStatus" | "tinStatus" | "status" | "createdAt" | "updatedAt" | "backupFrequency" | "backupLastRunAt", ExtArgs["result"]["organization"]>
 export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
   memberships?: boolean | Prisma.Organization$membershipsArgs<ExtArgs>
@@ -13114,6 +13947,7 @@ export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.Interna
   timeEntries?: boolean | Prisma.Organization$timeEntriesArgs<ExtArgs>
   payrollPeriods?: boolean | Prisma.Organization$payrollPeriodsArgs<ExtArgs>
   payrollRuns?: boolean | Prisma.Organization$payrollRunsArgs<ExtArgs>
+  backups?: boolean | Prisma.Organization$backupsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -13162,6 +13996,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
     payrollPeriods: Prisma.$PayrollPeriodPayload<ExtArgs>[]
     payrollRuns: Prisma.$PayrollRunPayload<ExtArgs>[]
+    backups: Prisma.$BackupRecordPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -13227,6 +14062,8 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     status: $Enums.OrganizationStatus
     createdAt: Date
     updatedAt: Date
+    backupFrequency: $Enums.BackupFrequency
+    backupLastRunAt: Date | null
   }, ExtArgs["result"]["organization"]>
   composites: {}
 }
@@ -13657,6 +14494,7 @@ export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends run
   timeEntries<T extends Prisma.Organization$timeEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payrollPeriods<T extends Prisma.Organization$payrollPeriodsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$payrollPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayrollPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payrollRuns<T extends Prisma.Organization$payrollRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$payrollRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayrollRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  backups<T extends Prisma.Organization$backupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$backupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BackupRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13719,6 +14557,8 @@ export interface OrganizationFieldRefs {
   readonly status: Prisma.FieldRef<"Organization", 'OrganizationStatus'>
   readonly createdAt: Prisma.FieldRef<"Organization", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Organization", 'DateTime'>
+  readonly backupFrequency: Prisma.FieldRef<"Organization", 'BackupFrequency'>
+  readonly backupLastRunAt: Prisma.FieldRef<"Organization", 'DateTime'>
 }
     
 
@@ -14952,6 +15792,30 @@ export type Organization$payrollRunsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.PayrollRunScalarFieldEnum | Prisma.PayrollRunScalarFieldEnum[]
+}
+
+/**
+ * Organization.backups
+ */
+export type Organization$backupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BackupRecord
+   */
+  select?: Prisma.BackupRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BackupRecord
+   */
+  omit?: Prisma.BackupRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BackupRecordInclude<ExtArgs> | null
+  where?: Prisma.BackupRecordWhereInput
+  orderBy?: Prisma.BackupRecordOrderByWithRelationInput | Prisma.BackupRecordOrderByWithRelationInput[]
+  cursor?: Prisma.BackupRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BackupRecordScalarFieldEnum | Prisma.BackupRecordScalarFieldEnum[]
 }
 
 /**

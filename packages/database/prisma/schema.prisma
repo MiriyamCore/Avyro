@@ -62,6 +62,25 @@ enum DocumentCategory {
   OTHER
 }
 
+enum BackupFrequency {
+  OFF
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+enum BackupStorage {
+  LOCAL
+  S3
+}
+
+enum BackupStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
 model User {
   id            String   @id @default(cuid())
   name          String
@@ -220,9 +239,30 @@ model Organization {
   timeEntries       TimeEntry[]
   payrollPeriods    PayrollPeriod[]
   payrollRuns       PayrollRun[]
+  backupFrequency   BackupFrequency @default(OFF)
+  backupLastRunAt   DateTime?
+  backups           BackupRecord[]
 
   @@index([workspaceId])
   @@map("organizations")
+}
+
+model BackupRecord {
+  id             String        @id @default(cuid())
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  storage        BackupStorage
+  storageKey     String
+  filename       String
+  sizeBytes      BigInt        @default(0)
+  status         BackupStatus  @default(PENDING)
+  errorMessage   String?
+  triggeredBy    String?
+  createdAt      DateTime      @default(now())
+  completedAt    DateTime?
+
+  @@index([organizationId, createdAt(sort: Desc)])
+  @@map("backup_records")
 }
 
 model Membership {
