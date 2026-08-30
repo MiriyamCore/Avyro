@@ -72,6 +72,11 @@ export async function api<T = unknown>(
   return body as T;
 }
 
+export async function signOut() {
+  setActiveOrganizationId(null);
+  await api('/api/auth/sign-out', { method: 'POST' });
+}
+
 export async function uploadReceipt(
   file: File,
   meta: { entityType?: string; entityId?: string; label?: string } = {},
@@ -91,6 +96,16 @@ export async function uploadLogo(file: File) {
     '/api/v1/organizations/current/logo',
     { method: 'POST', body: form },
   );
+}
+
+export async function restoreBackupUpload(file: File, confirm: string) {
+  const form = new FormData();
+  form.append('file', file);
+  form.append('confirm', confirm);
+  return api<{ restored: boolean; filename?: string }>('/api/v1/backups/restore', {
+    method: 'POST',
+    body: form,
+  });
 }
 
 export const ORG_LOGO_PATH = '/api/v1/organizations/current/logo';

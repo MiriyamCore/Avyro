@@ -3,7 +3,8 @@
 import { FormEvent, Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { api, ApiError, ORG_LOGO_PATH, uploadLogo, uploadReceipt } from '@/lib/api';
+import { api, ApiError, ORG_LOGO_PATH, restoreBackupUpload, uploadLogo, uploadReceipt } from '@/lib/api';
+import { SignOutButton } from '@/components/sign-out-button';
 import { PageHeader, StatusBadge } from '@/components/ui';
 import {
   parseSettingsTab,
@@ -194,7 +195,8 @@ function SettingsPageInner() {
   const [backups, setBackups] = useState<BackupRow[]>([]);
   const [backupFrequency, setBackupFrequency] = useState<BackupSettings['frequency']>('OFF');
   const [restoreConfirm, setRestoreConfirm] = useState('');
-  const [restoreTarget, setRestoreTarget] = useState<string | null>(null);
+  const [restoreFile, setRestoreFile] = useState<File | null>(null);
+  const [restoring, setRestoring] = useState(false);
   const [backingUp, setBackingUp] = useState(false);
 
   function refresh() {
@@ -259,6 +261,16 @@ function SettingsPageInner() {
     }
   }, [tab, isOwner]);
 
+  useEffect(() => {
+    if (tab !== 'backups' || !isOwner) return;
+    const inFlight = backups.some((b) => b.status === 'PENDING' || b.status === 'RUNNING');
+    if (!inFlight) return;
+    const timer = window.setInterval(() => {
+      void loadBackups();
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [tab, isOwner, backups]);
+
   async function saveBackupFrequency(e: FormEvent) {
     e.preventDefault();
     if (!isOwner) return;
@@ -295,24 +307,22 @@ function SettingsPageInner() {
     }
   }
 
-  async function restoreBackup(backupId: string) {
-    if (!isOwner) return;
-    setSaving(true);
+  async function restoreUploadedBackup(e: FormEvent) {
+    e.preventDefault();
+    if (!isOwner || !restoreFile) return;
+    setRestoring(true);
     setError(null);
     setNotice(null);
     try {
-      await api(`/api/v1/backups/${backupId}/restore`, {
-        method: 'POST',
-        body: JSON.stringify({ confirm: restoreConfirm }),
-      });
+      await restoreBackupUpload(restoreFile, restoreConfirm);
       setNotice('Restore completed. Reload the app to pick up restored data.');
       setRestoreConfirm('');
-      setRestoreTarget(null);
+      setRestoreFile(null);
       await loadBackups();
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Restore failed');
     } finally {
-      setSaving(false);
+      setRestoring(false);
     }
   }
 
@@ -1100,10 +1110,10 @@ function SettingsPageInner() {
               <div className="ac-card space-y-4 p-6">
                 <h2 className="font-display text-lg font-semibold">Backup schedule</h2>
                 <p className="text-sm text-ink-soft">
-                  Backups include the full database and uploaded files. When S3 is
-                  configured in your environment, archives are stored remotely;
-                  otherwise they are saved under{' '}
-                  <code className="text-xs">BACKUP_ROOT</code> on the server.
+                  Avyro builds portable backup archives in-app (no pg_dump or external tools).
+                  Each archive contains your organisation data plus uploaded files. Store locally
+                  or on S3 when configured — download any completed backup as a single{' '}
+                  <code className="text-xs">.tar.gz</code> file.
                 </p>
                 {backupSettings ? (
                   <p className="text-xs text-muted">
@@ -1146,6 +1156,51 @@ function SettingsPageInner() {
                 </form>
               </div>
 
+              <div className="ac-card space-y-4 p-6">
+                <h2 className="font-display text-lg font-semibold">Restore from file</h2>
+                <p className="text-sm text-ink-soft">
+                  Upload an Avyro backup archive (<code className="text-xs">.tar.gz</code>) downloaded
+                  from this or another Avyro instance. This replaces this organisation&apos;s data
+                  and uploaded files on this server.
+                </p>
+                <form onSubmit={restoreUploadedBackup} className="space-y-4">
+                  <label className="block text-sm">
+                    <span className="mb-1 block text-muted">Backup file</span>
+                    <input
+                      className="ac-input w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-brand-soft file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-brand"
+                      type="file"
+                      accept=".tar.gz,.tgz,.gz,application/gzip,application/x-gzip,application/x-tar"
+                      required
+                      onChange={(e) => setRestoreFile(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+                  <label className="block text-sm">
+                    <span className="mb-1 block text-muted">Confirmation</span>
+                    <input
+                      className="ac-input"
+                      placeholder="Type RESTORE to confirm"
+                      value={restoreConfirm}
+                      onChange={(e) => setRestoreConfirm(e.target.value)}
+                      required
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    className="ac-btn-primary"
+                    disabled={
+                      restoring ||
+                      !restoreFile ||
+                      restoreConfirm !== 'RESTORE'
+                    }
+                  >
+                    {restoring ? 'Restoring…' : 'Restore backup'}
+                  </button>
+                </form>
+                <p className="text-xs text-muted">
+                  All users should sign out first. This cannot be undone.
+                </p>
+              </div>
+
               <div className="ac-card overflow-hidden">
                 <div className="border-b border-line px-4 py-3">
                   <h2 className="font-display text-lg font-semibold">Recent backups</h2>
@@ -1182,44 +1237,12 @@ function SettingsPageInner() {
                           </td>
                           <td>
                             {b.status === 'COMPLETED' ? (
-                              restoreTarget === b.id ? (
-                                <div className="flex flex-col gap-2">
-                                  <input
-                                    className="ac-input text-xs"
-                                    placeholder='Type RESTORE to confirm'
-                                    value={restoreConfirm}
-                                    onChange={(e) => setRestoreConfirm(e.target.value)}
-                                  />
-                                  <div className="flex gap-2">
-                                    <button
-                                      type="button"
-                                      className="text-xs font-semibold text-danger"
-                                      disabled={saving || restoreConfirm !== 'RESTORE'}
-                                      onClick={() => void restoreBackup(b.id)}
-                                    >
-                                      Confirm restore
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="text-xs text-muted"
-                                      onClick={() => {
-                                        setRestoreTarget(null);
-                                        setRestoreConfirm('');
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="text-xs font-semibold text-danger"
-                                  onClick={() => setRestoreTarget(b.id)}
-                                >
-                                  Restore…
-                                </button>
-                              )
+                              <a
+                                href={`/api/v1/backups/${b.id}/download`}
+                                className="text-xs font-semibold text-brand"
+                              >
+                                Download
+                              </a>
                             ) : b.errorMessage ? (
                               <span className="text-xs text-danger">{b.errorMessage}</span>
                             ) : (
@@ -1232,19 +1255,15 @@ function SettingsPageInner() {
                   </tbody>
                 </table>
               </div>
-
-              <p className="text-xs text-muted">
-                Restore replaces the entire database and uploaded files on this server.
-                All users should sign out first. This cannot be undone.
-              </p>
             </>
           )}
         </div>
       ) : null}
 
       {tab === 'security' ? (
-        <form onSubmit={changePassword} className="ac-card max-w-md space-y-4 p-6">
-          <h2 className="font-display text-lg font-semibold">Change password</h2>
+        <div className="space-y-6">
+          <form onSubmit={changePassword} className="ac-card max-w-md space-y-4 p-6">
+            <h2 className="font-display text-lg font-semibold">Change password</h2>
           <label className="block text-sm">
             <span className="mb-1 block text-muted">Current password</span>
             <input
@@ -1289,7 +1308,16 @@ function SettingsPageInner() {
           <button type="submit" className="ac-btn-primary" disabled={saving}>
             {saving ? 'Updating…' : 'Update password'}
           </button>
-        </form>
+          </form>
+
+          <div className="ac-card max-w-md space-y-3 p-6">
+            <h2 className="font-display text-lg font-semibold">Sign out</h2>
+            <p className="text-sm text-ink-soft">
+              End your session on this device. You will need to sign in again to continue.
+            </p>
+            <SignOutButton variant="button" />
+          </div>
+        </div>
       ) : null}
 
       {tab === 'display' ? (

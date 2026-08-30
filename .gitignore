@@ -10,5 +10,6 @@ coverage
 .data
 .pnpm-store
 apps/api/uploads
+apps/api/data/
 
 .pnpm-store

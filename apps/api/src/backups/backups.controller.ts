@@ -3,12 +3,17 @@ import {
   Controller,
   ForbiddenException,
   Get,
+  Header,
   Inject,
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import type { BackupFrequency } from '@avyro/database';
 import {
   CurrentOrg,
@@ -61,6 +66,28 @@ export class BackupsController {
     return this.backups.triggerBackup(org.organizationId, user.id);
   }
 
+  @Post('restore')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      limits: { fileSize: 512 * 1024 * 1024 },
+    }),
+  )
+  restoreUpload(
+    @CurrentOrg() current: OrgMembership | null,
+    @CurrentUser() user: RequestUser,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: { confirm?: string },
+  ) {
+    const org = this.requireOrg(current);
+    return this.backups.restoreFromUpload(
+      org.organizationId,
+      user.id,
+      file,
+      body.confirm ?? '',
+    );
+  }
+
   @Post(':id/restore')
   restore(
     @CurrentOrg() current: OrgMembership | null,
@@ -70,5 +97,16 @@ export class BackupsController {
   ) {
     const org = this.requireOrg(current);
     return this.backups.restore(org.organizationId, user.id, id, body.confirm);
+  }
+
+  @Get(':id/download')
+  @Header('Cache-Control', 'no-store')
+  download(
+    @CurrentOrg() current: OrgMembership | null,
+    @CurrentUser() user: RequestUser,
+    @Param('id') id: string,
+  ) {
+    const org = this.requireOrg(current);
+    return this.backups.download(org.organizationId, user.id, id);
   }
 }

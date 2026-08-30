@@ -28,14 +28,14 @@ export function PoweredByAvyro({
 export function AvyroIcon({ className = 'h-8 w-8' }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src="/avyro-icon.svg" alt="" className={`shrink-0 ${className}`} />
+    <img src="/avyro-icon.png" alt="" className={`shrink-0 ${className}`} />
   );
 }
 
 export function AvyroLogo({ className = 'h-8 w-auto' }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src="/avyro-logo.svg" alt="Avyro" className={className} />
+    <img src="/avyro-icon.png" alt="Avyro" className={className} />
   );
 }
 

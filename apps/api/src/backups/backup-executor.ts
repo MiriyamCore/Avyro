@@ -2,7 +2,12 @@ import { readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { prisma } from '@avyro/database';
-import { createBackupArchive, restoreBackupArchive } from './backup-db.js';
+import {
+  createBackupArchive,
+  isLegacySqlBackup,
+  restoreBackupArchive,
+} from './backup-db.js';
+import { restoreLegacySqlBackup } from './backup-legacy.js';
 import {
   buildBackupFilename,
   buildBackupKey,
@@ -11,30 +16,54 @@ import {
 } from './backup-storage.js';
 import { enqueueBackup } from '../queue/backup.queue.js';
 
+function logBackupError(label: string, err: unknown) {
+  console.error(`[backups] ${label}`, err);
+}
+
+/** Run in the API by default; set BACKUP_USE_QUEUE=true when the worker app is running. */
+export function dispatchBackup(recordId: string) {
+  if (process.env.BACKUP_USE_QUEUE === 'true') {
+    void enqueueBackup({ backupId: recordId }).catch(() => {
+      void executeBackupRecord(recordId).catch((err) => {
+        logBackupError('inline backup failed after queue error', err);
+      });
+    });
+    return;
+  }
+
+  void executeBackupRecord(recordId).catch((err) => {
+    logBackupError('inline backup failed', err);
+  });
+}
+
+/** Pick up backups stuck in the queue when no worker is consuming jobs. */
+export async function reconcileStaleBackups(maxAgeMs = 60_000) {
+  const cutoff = new Date(Date.now() - maxAgeMs);
+  const stale = await prisma.backupRecord.findMany({
+    where: {
+      status: 'PENDING',
+      createdAt: { lt: cutoff },
+    },
+    select: { id: true },
+  });
+
+  for (const record of stale) {
+    dispatchBackup(record.id);
+  }
+
+  return stale.length;
+}
+
 export async function executeBackupRecord(recordId: string) {
   const record = await prisma.backupRecord.update({
     where: { id: recordId },
     data: { status: 'RUNNING', errorMessage: null },
   });
 
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) {
-    await prisma.backupRecord.update({
-      where: { id: recordId },
-      data: {
-        status: 'FAILED',
-        errorMessage: 'DATABASE_URL is not configured.',
-        completedAt: new Date(),
-      },
-    });
-    return;
-  }
-
   const tmpPath = path.join(os.tmpdir(), record.filename);
 
   try {
     await createBackupArchive({
-      databaseUrl,
       organizationId: record.organizationId,
       outputPath: tmpPath,
     });
@@ -108,11 +137,34 @@ export async function runScheduledBackupScan() {
       },
     });
 
-    void enqueueBackup({ backupId: record.id });
+    void dispatchBackup(record.id);
     started += 1;
   }
 
   return { started };
+}
+
+export async function restoreBackupFile(options: {
+  organizationId: string;
+  archivePath: string;
+}) {
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error('DATABASE_URL is not configured.');
+  }
+
+  const legacy = await isLegacySqlBackup(options.archivePath);
+  if (legacy) {
+    return await restoreLegacySqlBackup({
+      databaseUrl,
+      archivePath: options.archivePath,
+      organizationId: options.organizationId,
+    });
+  }
+  return await restoreBackupArchive({
+    archivePath: options.archivePath,
+    organizationId: options.organizationId,
+  });
 }
 
 export async function restoreBackupRecord(options: {
@@ -130,19 +182,13 @@ export async function restoreBackupRecord(options: {
     throw new Error('Backup not found or not completed.');
   }
 
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) {
-    throw new Error('DATABASE_URL is not configured.');
-  }
-
   const tmpPath = path.join(os.tmpdir(), `avyro-restore-${options.backupId}.tar.gz`);
   const { storage } = resolveBackupStorage();
   const body = await storage.getObject(record.storageKey);
   await writeFile(tmpPath, body);
 
   try {
-    return await restoreBackupArchive({
-      databaseUrl,
+    return await restoreBackupFile({
       archivePath: tmpPath,
       organizationId: options.organizationId,
     });

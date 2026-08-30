@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   description:
     'Avyro is an open-source business OS for managing your finances, people, compliance, and operations in one place.',
   icons: {
-    icon: '/favicon.svg',
-    apple: '/avyro-icon.svg',
+    icon: '/avyro-icon.png',
+    apple: '/avyro-icon.png',
   },
 };
 

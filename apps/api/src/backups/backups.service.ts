@@ -1,20 +1,23 @@
+import { rm, writeFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import {
   BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
+  StreamableFile,
 } from '@nestjs/common';
 import { prisma } from '@avyro/database';
 import type { BackupFrequency } from '@avyro/database';
 import { AuditService } from '../audit/audit.service.js';
 import { OrganizationsService } from '../organizations/organizations.service.js';
-import { restoreBackupRecord } from './backup-executor.js';
+import { dispatchBackup, reconcileStaleBackups, restoreBackupFile, restoreBackupRecord } from './backup-executor.js';
 import {
   buildBackupFilename,
   buildBackupKey,
   resolveBackupStorage,
 } from './backup-storage.js';
-import { enqueueBackup } from '../queue/backup.queue.js';
 
 const FREQUENCIES = ['OFF', 'DAILY', 'WEEKLY', 'MONTHLY'] as const;
 
@@ -104,6 +107,7 @@ export class BackupsService {
 
   async list(organizationId: string, userId: string) {
     await this.organizations.requireRole(organizationId, userId, 'OWNER');
+    void reconcileStaleBackups().catch(() => undefined);
     const records = await prisma.backupRecord.findMany({
       where: { organizationId },
       orderBy: { createdAt: 'desc' },
@@ -145,8 +149,26 @@ export class BackupsService {
       },
     });
 
-    await enqueueBackup({ backupId: record.id });
+    dispatchBackup(record.id);
     return serializeBackup(record);
+  }
+
+  async download(organizationId: string, userId: string, backupId: string) {
+    await this.organizations.requireRole(organizationId, userId, 'OWNER');
+    const record = await prisma.backupRecord.findFirst({
+      where: { id: backupId, organizationId, status: 'COMPLETED' },
+    });
+    if (!record) {
+      throw new NotFoundException({
+        error: { code: 'BACKUP_NOT_FOUND', message: 'Backup not found.' },
+      });
+    }
+    const { storage } = resolveBackupStorage();
+    const body = await storage.getObject(record.storageKey);
+    return new StreamableFile(body, {
+      type: 'application/gzip',
+      disposition: `attachment; filename="${record.filename}"`,
+    });
   }
 
   async restore(
@@ -181,12 +203,77 @@ export class BackupsService {
       action: 'RESTORE',
       entityType: 'BackupRecord',
       entityId: backupId,
-      afterJson: { restoredSqlBytes: result.restoredSqlBytes },
+      afterJson: result,
     });
     return {
       restored: true,
       backupId,
-      restoredSqlBytes: result.restoredSqlBytes,
+      ...result,
     };
+  }
+
+  async restoreFromUpload(
+    organizationId: string,
+    userId: string,
+    file: Express.Multer.File | undefined,
+    confirm: string,
+  ) {
+    await this.organizations.requireRole(organizationId, userId, 'OWNER');
+    if (confirm !== 'RESTORE') {
+      throw new BadRequestException({
+        error: {
+          code: 'CONFIRMATION_REQUIRED',
+          message: 'Type RESTORE in the confirm field to proceed.',
+        },
+      });
+    }
+    if (!file?.buffer?.length) {
+      throw new BadRequestException({
+        error: { code: 'FILE_REQUIRED', message: 'Choose a backup archive to upload.' },
+      });
+    }
+
+    const name = file.originalname.toLowerCase();
+    if (
+      !name.endsWith('.tar.gz') &&
+      !name.endsWith('.tgz') &&
+      !name.endsWith('.gz')
+    ) {
+      throw new BadRequestException({
+        error: {
+          code: 'INVALID_BACKUP_FILE',
+          message: 'Upload an Avyro backup archive (.tar.gz).',
+        },
+      });
+    }
+
+    const tmpPath = path.join(
+      os.tmpdir(),
+      `avyro-upload-restore-${Date.now()}-${file.originalname.replace(/[^\w.-]+/g, '_')}`,
+    );
+    await writeFile(tmpPath, file.buffer);
+
+    try {
+      const result = await restoreBackupFile({
+        organizationId,
+        archivePath: tmpPath,
+      });
+      await this.audit.write({
+        organizationId,
+        userId,
+        action: 'RESTORE',
+        entityType: 'BackupRecord',
+        entityId: 'upload',
+        afterJson: { filename: file.originalname, ...result },
+      });
+      return {
+        restored: true,
+        source: 'upload',
+        filename: file.originalname,
+        ...result,
+      };
+    } finally {
+      await rm(tmpPath, { force: true });
+    }
   }
 }

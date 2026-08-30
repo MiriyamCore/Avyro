@@ -12,7 +12,31 @@ import {
   SettingsSidebarNav,
   settingsHref,
 } from '@/components/settings-nav';
-import { AvyroIcon, AvyroSidebarBrand, PoweredByAvyro } from '@/components/avyro-brand';
+import { AvyroIcon, PoweredByAvyro } from '@/components/avyro-brand';
+import { SignOutButton } from '@/components/sign-out-button';
+
+function OrgMark({
+  hasLogo,
+  logoBust,
+  className = 'h-10 w-10',
+}: {
+  hasLogo?: boolean;
+  logoBust?: number;
+  className?: string;
+}) {
+  if (hasLogo) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`/api/v1/organizations/current/logo?v=${logoBust ?? 1}`}
+        alt=""
+        className={`rounded-lg border border-line/80 object-contain shadow-sm ${className}`}
+      />
+    );
+  }
+
+  return <AvyroIcon className={className} />;
+}
 
 type NavItem = {
   href: string;
@@ -134,22 +158,9 @@ function SettingsShellSidebar({
           Back to app
         </Link>
         <div className="flex items-center gap-3">
-          {hasLogo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={`/api/v1/organizations/current/logo?v=${logoBust ?? 1}`}
-              alt=""
-              className="h-10 w-10 rounded-lg border border-line/80 object-contain shadow-sm"
-            />
-          ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-md border border-line bg-surface text-ink-soft">
-              <NavIcon name="settings" />
-            </div>
-          )}
+          <OrgMark hasLogo={hasLogo} logoBust={logoBust} />
           <div className="min-w-0">
-            <div className="text-base font-semibold text-ink">
-              Settings
-            </div>
+            <div className="text-base font-semibold text-ink">Settings</div>
             <div className="mt-0.5 truncate text-xs text-muted">
               {orgName ?? 'Your organisation'}
             </div>
@@ -160,6 +171,7 @@ function SettingsShellSidebar({
         <SettingsSidebarNav />
       </Suspense>
       <div className="border-t border-line p-3">
+        <SignOutButton className="mb-3 px-2.5" />
         <PoweredByAvyro />
       </div>
     </aside>
@@ -210,22 +222,14 @@ function MainShellSidebar({
     <aside className="ac-sidebar hidden lg:flex lg:flex-col">
       {/* Logo area */}
       <div className="border-b border-line px-4 py-5">
-        <div className="mb-3">
-          <AvyroSidebarBrand />
-        </div>
-        <div className="flex items-center gap-2.5">
-          {hasLogo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={`/api/v1/organizations/current/logo?v=${logoBust ?? 1}`}
-              alt=""
-              className="h-8 w-8 shrink-0 rounded-md border border-line object-contain"
-            />
-          ) : null}
-          <div className="min-w-0 truncate text-xs text-muted">
-            {orgName ?? 'Your organisation'}
+        <Link href="/app" className="mb-3 flex items-center gap-3">
+          <OrgMark hasLogo={hasLogo} logoBust={logoBust} />
+          <div className="min-w-0">
+            <div className="truncate text-base font-semibold text-ink">
+              {orgName ?? 'Your organisation'}
+            </div>
           </div>
-        </div>
+        </Link>
 
         {memberships && memberships.length > 1 ? (
           <select
@@ -386,9 +390,14 @@ function MainShellSidebar({
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-surface text-xs font-medium text-ink-soft">
               {userName.split(/\s+/).map((p) => p[0]?.toUpperCase()).slice(0, 2).join('')}
             </div>
-            <div className="min-w-0 truncate text-xs text-muted">{userName}</div>
+            <div className="min-w-0 flex-1 truncate text-xs text-muted">{userName}</div>
+            <SignOutButton />
           </div>
-        ) : null}
+        ) : (
+          <div className="mt-2 px-3">
+            <SignOutButton />
+          </div>
+        )}
         <PoweredByAvyro align="left" className="mt-3 px-2.5" />
       </div>
     </aside>
@@ -529,10 +538,10 @@ export function AppShell({
       <div className="ac-main">
         <header className="sticky top-0 z-20 border-b border-line bg-paper-elevated/95 backdrop-blur-sm lg:hidden">
           <div className="flex items-center justify-between gap-3 px-4 py-3">
-            <Link href="/app" className="flex items-center gap-2">
-              <AvyroIcon className="h-8 w-8 shrink-0" />
-              <span className="text-sm font-semibold text-ink">
-                {inSettings ? 'Settings' : 'Avyro'}
+            <Link href="/app" className="flex min-w-0 items-center gap-2">
+              <OrgMark hasLogo={logoOn} logoBust={logoBust} className="h-8 w-8" />
+              <span className="truncate text-sm font-semibold text-ink">
+                {inSettings ? 'Settings' : activeOrgName ?? 'Your organisation'}
               </span>
             </Link>
             {!inSettings ? (
