@@ -25,6 +25,12 @@ pnpm db:seed
 pnpm dev
 ```
 
+After pulling updates, apply new migrations before starting the API:
+
+```bash
+pnpm db:migrate:deploy
+```
+
 Web: http://localhost:3000 · API: http://localhost:3001
 
 Default seed login (local dev only): `owner@demo.local` / `ChangeMeNow1!`

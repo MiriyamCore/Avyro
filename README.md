@@ -37,10 +37,12 @@ Avyro is in **public beta**. The core ledger, sales/purchases workflows, banking
 - Run real books for a single organisation with owner + team roles
 - Export compliance worksheets — not automated NBR portal filing
 - Payment integrations beyond test checkout and SSLCommerz sandbox are stubs (bKash/Nagad)
-- Object storage is local filesystem; S3/R2 adapter is planned
+- Portable org backups and restore-from-upload (Settings → Backups)
+- Dark mode by default with per-user theme in Settings → Display
+- Object storage is local filesystem for documents; backup archives can use S3 when configured
 - Receipt OCR and per-bank PDF parsers are not yet built
 
-See [`RELEASE.md`](./RELEASE.md) for v0.1.0-beta.1 notes.
+See [`RELEASE.md`](./RELEASE.md) for release notes (latest: **v0.1.0-beta.2**).
 
 We welcome feedback, issues, and contributions. See [CONTRIBUTING.md](./CONTRIBUTING.md) and [SECURITY.md](./SECURITY.md).
 
@@ -57,7 +59,8 @@ We welcome feedback, issues, and contributions. See [CONTRIBUTING.md](./CONTRIBU
 | Gateways (test + SSLCommerz sandbox) | Functional; bKash/Nagad are stubs |
 | Bangladesh compliance (Mushak registers, TDS/VDS) | Export layer; no auto-submit |
 | Payroll, people, assets, time | Functional |
-| Web UI | Broad coverage |
+| Web UI | Broad coverage; dark mode default |
+| Backups | Portable org archives; schedule, download, upload restore |
 | Tests | Ledger + API integration; no web E2E yet |
 
 ---
@@ -71,11 +74,13 @@ We welcome feedback, issues, and contributions. See [CONTRIBUTING.md](./CONTRIBU
 - **Authentication** — email/password via [Better Auth](https://www.better-auth.com/); session cookies
 - **RBAC** — `OWNER`, `ACCOUNTANT`, `MANAGER`, `EMPLOYEE`, `AUDITOR` with route-level gating
 - **UI modes** — **Simple** (owner-friendly) and **Accountant** (journals, CoA, trial balance, month-end)
+- **Appearance** — dark (default), light, or system; per-user in Settings → Display
 - **Audit log** — immutable action trail for sensitive operations
 - **Document storage** — upload receipts, contracts, tax IDs; link to entities
 - **Review queue** — drafts, unmatched bank lines, unsettled gateway captures, overdue AR/AP
 - **Business setup wizard** — onboarding for business profile, IDs, bank, opening capital, invoice defaults
 - **Command palette** — keyboard-first navigation (⌘K / Ctrl+K)
+- **Backups** — portable org archives (no host `pg_dump`); schedule, download, restore from upload; optional S3 storage
 
 </details>
 
@@ -201,6 +206,12 @@ pnpm db:seed    # dev only — creates demo org + owner user
 pnpm dev
 ```
 
+For API + web + worker together:
+
+```bash
+pnpm dev:all
+```
+
 | Service | URL |
 |---------|-----|
 | Web | http://localhost:3000 |
@@ -241,6 +252,7 @@ pnpm --filter @avyro/worker dev
 | `pnpm lint` | Lint |
 | `pnpm db:studio` | Open Prisma Studio |
 | `pnpm db:migrate:deploy` | Apply migrations (production) |
+| `pnpm dev:all` | API + web + worker |
 | `pnpm --filter @avyro/api dev` | API only |
 | `pnpm --filter @avyro/web dev` | Web only |
 | `pnpm --filter @avyro/accounting build` | Ledger package |
@@ -284,6 +296,9 @@ All variables are documented in [`.env.example`](./.env.example).
 | `API_URL` | Yes | API base URL |
 | `WEB_URL` | Yes | Web app URL |
 | `STORAGE_ROOT` | No | Local document storage path |
+| `BACKUP_ROOT` | No | Local backup archive path (when S3 not configured) |
+| `S3_BUCKET` + AWS creds | No | Remote backup storage (optional) |
+| `BACKUP_USE_QUEUE` | No | `true` to queue backups via worker (default: inline in API) |
 | `SMTP_*` | No | Outbound email |
 | `SSLCOMMERZ_*` | No | SSLCommerz sandbox credentials |
 | `SEED_*` | No | Dev seed user credentials |
@@ -301,7 +316,7 @@ Never commit `.env` or real secrets.
 - [ ] Live bKash / Nagad wallet checkout adapters
 - [ ] S3/R2 object storage adapter
 - [ ] Web E2E tests (Playwright)
-- [ ] Worker in dev script — optional `pnpm dev:all`
+- [x] Worker in dev script — `pnpm dev:all`
 
 ### Compliance depth
 

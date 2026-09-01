@@ -11,6 +11,7 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "pnpm --parallel --filter @avyro/api --filter @avyro/web dev",
+    "dev:all": "pnpm --parallel --filter @avyro/api --filter @avyro/web --filter @avyro/worker dev",
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
     "test": "pnpm -r --filter=./packages/* test && pnpm -r --filter=./apps/* test",
     "lint": "pnpm -r lint",

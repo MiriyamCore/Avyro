@@ -342,6 +342,12 @@ function SettingsPageInner() {
     return `${(n / (1024 * 1024)).toFixed(1)} MB`;
   }
 
+  function formatFileSize(bytes: number) {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
   async function saveBusiness(e: FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -1204,6 +1210,11 @@ function SettingsPageInner() {
                       required
                       onChange={(e) => setRestoreFile(e.target.files?.[0] ?? null)}
                     />
+                    {restoreFile ? (
+                      <p className="mt-1.5 text-xs text-muted">
+                        {restoreFile.name} · {formatFileSize(restoreFile.size)}
+                      </p>
+                    ) : null}
                   </label>
                   <label className="block text-sm">
                     <span className="mb-1 block text-muted">Confirmation</span>
@@ -1226,6 +1237,11 @@ function SettingsPageInner() {
                   >
                     {restoring ? 'Restoring…' : 'Restore backup'}
                   </button>
+                  {restoring ? (
+                    <p className="text-xs text-muted">
+                      Uploading and restoring — this may take a minute for large archives.
+                    </p>
+                  ) : null}
                 </form>
                 <p className="text-xs text-muted">
                   All users should sign out first. This cannot be undone.

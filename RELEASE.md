@@ -1,5 +1,35 @@
 # Release notes
 
+## v0.1.0-beta.2 — Portable backups, dark mode, shell polish
+
+**Date:** 2026-09-01
+
+### Highlights
+
+- **Portable backups** — org-scoped `.tar.gz` archives built in Node.js (no `pg_dump` / external tools required for new backups)
+- **Restore from upload** — owners upload a backup file in Settings → Backups to restore on any instance
+- **Inline backup execution** — backups run in the API by default; set `BACKUP_USE_QUEUE=true` when running the worker for queued jobs
+- **Dark mode** — default theme matches [miriyamcore.com/avyro](https://miriyamcore.com/avyro); per-user preference in Settings → Display (dark / light / system)
+- **Sign out** — sidebar footer and Settings → Security
+- **Landing page** — guests see Sign in only; signed-in users redirect to the app
+- **Branding** — updated Avyro mark (transparent PNG)
+
+### Upgrade notes
+
+After pulling, apply the new migration:
+
+```bash
+pnpm db:migrate:deploy
+```
+
+New env vars (optional): see `.env.example` — `BACKUP_USE_QUEUE`, `BACKUP_SCHEDULER_INTERVAL_MS`.
+
+### Report issues
+
+See [SECURITY.md](./SECURITY.md) for vulnerability disclosure and [CONTRIBUTING.md](./CONTRIBUTING.md) for pull requests.
+
+---
+
 ## v0.1.0-beta.1 — Public beta
 
 **Date:** 2026-08-29

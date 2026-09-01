@@ -141,7 +141,11 @@ docker compose -f docker-compose.prod.yml logs -f nginx api web worker
 # stop
 ./infra/scripts/deploy.sh --down
 
-# database backup
+# Built-in org backups (recommended)
+# Settings → Backups in the web UI, or schedule via owner settings.
+# Archives are portable .tar.gz files under BACKUP_ROOT or S3 when configured.
+
+# Manual PostgreSQL dump (optional — full database, all tenants)
 docker compose -f docker-compose.prod.yml exec -T postgres \
   pg_dump -U accounting avyro > avyro-$(date +%Y%m%d).sql
 ```
